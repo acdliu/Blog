@@ -1,0 +1,71 @@
+---
+layout: default
+title: jsonp跨域
+---
+
+<div class="main">
+			<h1>跨域二</h1>
+
+			<h3>一、jsonp跨域原理</h3>
+			<p>jsonp是常用的、浏览器兼容性较好的跨域解决方案。</p>
+			<p>
+			首先在客户端注册一个callback函数，然后将callback名字附加到script的src中。</p>
+			<p>
+			服务器收到请求后先生成json数据，然后生成一个callback的调用，并将json数据以直接入参的方式放置到callback中。</p>
+			<p>
+			客户端接收到数据后，在动态生成的script中调用callback函数。
+			</p>
+
+			<h3>二、jsonp跨域的实现</h3>
+			<p>jsonp跨域的实现还是很好实现的，下面用javascript来实现跨域来获取不同域名下的静态js文件。</p>
+
+			<h4>服务器端js代码</h4>
+			<p>这是一个jsonp中的product对象analyse函数的掉用，可以将json数据格式做为实参放到analyse实参中</p>
+			<div class="code">
+			<h5>服务器端js代码</h5>
+			<textarea class="h30">
+productJSONP.analyse({"username":"liu","age":"24"});
+			</textarea>
+
+			<h5>javascript原生代码实现</h5>
+			<textarea>
+<script type="text/javascript">
+var productJSONP;
+window.onload = function(){
+		
+	//一个产生jsonp建立和接收对象
+	function getData(){
+		var object = {};
+		//一个创建script标签的函数
+		object.create = function(url){
+			var oStript = document.createElement("script");
+			oStript.src = url;
+			var oHead = document.getElementsByTagName("head")[0];
+			oHead.appendChild(oStript);
+
+		};
+
+
+		// 这是处理传递回来的json数据的处理函数
+		object.analyse = function(){
+			var json = arguments[0];
+			var oDiv = document.getElementsByTagName("div")[0];
+			for(var i in json)
+			{
+				oDiv.textContent += json[i]+"   ";
+			}
+		}
+			
+		return object;
+		};
+	productJSONP = getData();
+	productJSONP.create("http://www.liupc.com/jsonp.js?callback=productJSONP.analyse");}
+</script>
+			</textarea>
+		    </div>
+
+			<h3>三、使用jsonp要注意的事项</h3>
+			<p>jsonp跨域的安全性不好，它传递的是一个js，js中可能会带有恶意代码。</p>
+
+			<footer>跨域详细代码<a href="">jsonp跨域</a></footer>
+		</div>
