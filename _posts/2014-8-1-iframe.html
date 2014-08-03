@@ -6,17 +6,18 @@ title: 通过document.domain+iframe实现跨域
 
 <div class="main">
 		<h1>跨域一</h1>
-		<h3>跨域原理</h3>
+		<h3>一、跨域原理</h3>
 		<p>现在浏览器中的跨域主要是通过两种方式来实现：具有src属性的标签不受同源策略的限制和html5 api。</p>
 
-		<h3>通过src来跨域</h3>
+		<h3>二、通过src来跨域</h3>
 		<p>通常用来实现跨域的浏览器标签有script和iframe。前者就是我们所说的jsonp，它可以实现跨不同主域名访问，也可以跨主域名相同的域访问。后者只能跨主域名相同的域访问。</p>
 
-		<h3>通过iframe来跨域</h3>
+		<h3>三、通过iframe来跨域</h3>
 		<p>通过iframe来跨域要具备两个条件：设置document.domain和主域名相同。一个html页面是无法取得iframe的完全控制权的。下面我用一个跨域实现一个聊天效果</p>
 
 		<p>首先，通过wamp设置两个域名：data.liupc.com和www.liupc.com，将request.html文件存放到data.liupc.com的文件目录下,将iframe.html文件放在www.liupc.com。主要具体代码如下，界面简陋了些。</p>
-		<h3>主页面的代码</h3>
+		<div class="code">
+		<h5>主页面的代码</h5>
 		<textarea>
 			<script type="text/javascript">
 		//首先设置全局域名
@@ -61,7 +62,7 @@ title: 通过document.domain+iframe实现跨域
 		</script>
 		</textarea>
 
-		<h3>iframe的关键代码如下</h3>
+		<h5>iframe的关键代码如下</h5>
 		<textarea>
 			<script type="text/javascript">
 		document.domain = "liupc.com"
@@ -103,7 +104,7 @@ title: 通过document.domain+iframe实现跨域
 
 		</script>
 		</textarea>
-
+		</div>
 		<p>这样在一个窗体中，两个窗口中就可以直接通信了。但这样实现一个界面没有什么意义，在一个窗口也是自己跟自己聊天。要实现同主域名的两个页面的数据通信可以通过iframe+ajax+后台来实现，主页面可以调用iframe中的ajax来获取数据和提交数据。</p>
 
 		</div>
