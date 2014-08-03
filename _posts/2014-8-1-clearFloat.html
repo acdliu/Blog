@@ -1,0 +1,131 @@
+---
+layout: default
+title: 清除浮动
+---
+
+<div class="main">
+			
+			<h1>float浮动和清除浮动</h1>
+
+			<h3>一、float是什么</h3>
+			<p>float是定义一个元素的浮动方式，默认为none不浮动。float属性原本是用于制作文本环绕图像效果的，之后用于实现多列布局。</p>
+
+			<h3>二、float有什么用</h3>
+			<p>float最简单、最原始的用途是用于创造文字环绕图片效果，下面代码是其的一个效果实现：</p>
+			
+			<div class="code">
+			<h5>css代码</h5>
+			<textarea class="h50">.wordRP{ position: relative; width: 800px; margin: 0 auto;}
+.wordRP img{float:left; width: 200px;}
+			</textarea>
+			
+			<h5>html代码</h5>
+			<textarea class="h150"><div class="wordRP">
+<p><img src="test.jpg" />当上面的块级元素自动扩展以适应浮动元素时，段落间的文本流中会出现非自然的空白换行，而且没有有效的方法来修正这个问题。对于这种情况，设计师的抱怨会更甚于对塌陷的抱怨（没理解，不是设计完成之后才会进行页面编码吗？－ 糖伴西红柿）。为了防止怪异的布局和跨浏览器的问题，塌陷问题几乎总是被要处理的。我们在容器中的浮动元素之后，容器结束之前来清除浮动。</p>
+</div>
+			</textarea>
+			</div>
+
+			<p>float的第二个用途是用于制作nav导航条。多个li或div可以通过float属性实现行内元素的效果，同时又可以像块级元素一样可以设置width之类行内元素无意义的属性。通常不推荐用这种方法做导航，可以用display:inline-block来实现同样效果，而且后者浏览器兼容性比float好。下面是一个导航条示例代码：</p>
+			<div class="code">
+			<h5>css代码</h5>
+			<textarea>
+.nav{position: relative; width:800px; margin: 20px auto;border:1px solid #000; border-radius: 5px; text-align: center;}
+.nav ul{margin: 0; padding: 0;}
+.nav li{float:left; list-style: none; width: 80px;padding: 10px;}
+.nav a{text-decoration: none;}
+			</textarea>
+			<h5>html代码</h5>
+			<textarea>
+<div class="nav">
+    <ul>
+		<li><a href="">动画</a></li>
+		<li><a href="">音乐.娱乐</a></li>
+		<li><a href="">游戏</a></li>
+		<li><a href="">科学.技术</a></li>
+		<li><a href="">娱乐</a></li>
+		<li><a href="">影视剧</a></li>
+		<li><a href="">专题</a></li>
+		<li><a href="">其他</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+			</textarea>
+			</div>
+
+			<p>除了用于做导航条外，float还广泛用于做页面布局。使用float可以做出两列布局、三列布局等布局，这个时候就要考虑清除浮动了。通常清除浮动是将浮动节点的父节点的高度拉到其高度最高的子节点的高度，使得浮动元素完全被父节点包含。所以第一种清除浮动的方法很简单：给父节点设置一个高度。使用这种方法的灵活性不高，扩展性不强，比较适合于内容不变的静态组件或网页。</p>
+
+			<p>清除浮动的第二类方法是通过css的clear属性来实现。这种方法有三种实现方式：通过给父节点添加一个div用于清除浮动，通过父节点的兄弟节点添加clear属性来实现和通过伪类来实现。伪类是比较推荐的方式，其代码可读性和可维护性比另外两种方法高。</p>
+
+			<p>清除浮动的第三类方法是通过css的overflow属性来实现，设置其值为auto或hidden都可以实现清除浮动。以下为清除浮动的代码：</p>
+			<div class="code">
+			<h5>css代码：</h5>
+			<textarea>
+<style type="text/css">
+/*第一种方法：通过添加div来添加后置样式*/
+.parent {background: #ddd; margin-top: 20px;}
+.float { float: right;}
+.removeFloat{clear: both;}
+
+/*第二种方法：将父节点也设置为浮动*/
+.setFloat{float: left;}
+
+/*第三种方法：通过设置父节点的overflow*/
+.setOverflow{overflow: hidden;}
+.setOverflow2{overflow: auto;}
+
+/*第四种方法：通过伪元素*/
+.clear:after{content:""; display: block; height: 0; visibility: visible; clear: both;}
+
+/*第五种方法：添加高度*/
+.setHeight{height: 500px;}
+</style>
+			</textarea>
+			<h5>html代码：</h5>
+			<textarea>
+<div class="parent">
+这里是第一种清除浮动方法
+<div class="float">
+	<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+</div>
+<div class="removeFloat"></div>
+	</div>
+
+
+<div class="parent setFloat">
+这里是第二种清除浮动方法,这种方法会影响布局
+<div class="float">
+	<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+</div>
+</div>
+<div class="removeFloat"></div>
+
+
+<div class="parent setOverflow">
+这里是第三种清除浮动方法
+<div class="float">
+	<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+</div>
+</div>
+
+<div class="parent clear">
+这里是第四种清除浮动方法
+<div class="float">
+	<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+</div>
+<div class="removeFloat"></div>
+</div>
+
+
+<div class="parent setHeight">
+这里是第五种清除浮动方法，直接设置父节点的高度
+<div class="float">
+	<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+</div>
+<div class="removeFloat"></div>
+</div>
+		</textarea>
+		</div>
+		
+		<div class="adress">完整代码：<a href="https://github.com/acdliu/tips/blob/master/clearFloat.html">清除浮动代码</a></div>
+		</div>
