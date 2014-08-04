@@ -1,8 +1,9 @@
 ---
 layout: default
-title: 闭包小解释
+title: extjs分页实现
 ---
 
+<div class="main">
 <h3>extjs分页的实现</h3>
 <p>extjs中的分页是通过store.load()函数和PagingToolbar以及后台代码共同运作实现的.在页面前端,可以通过store.load({params{start:0,limit:20}})告诉后台服务器我要取从start到start+limit之间的这段数据,但它不能限制从客户端传过来的数据为20条.所以要实现分页的效果的话要依赖于客户端来传递回每页数据.</p>
 <p>如下面代码所示,连接服务器获取数据和解析过程的代码如下,proxy是请求的链接地址.下面代码中解析出的json格式是:{total:5,bookMessage:[bookId:"5",bookname:"斗破",author:"土豆",publishDate:"2012-01-05",publisher:"湖南出版社",isbn:"56656"]}.JsonReader的解析的对象是一个包含返回数据信息的描述和数据内容组成的一个json对象.</p>
@@ -108,7 +109,9 @@ End Sub
 </textarea>
 </div>
 <h3>分页实现总结</h3>
-<p>分页是前后端共同协作来实现的效果.extjs分页的过程是:前端设置好store路径和解析数据格式配置,通过store.load()来向服务器请求第一页面的信息。通过返回的信息，PagingToolbar可以显示返回信息、页数信息和设置翻页的功能。服务器端主要做好返回相应的数据即可</p>
+<p>分页是前后端共同协作来实现的效果.extjs分页的过程是:前端设置好store路径和解析数据格式配置,通过store.load()来向服务器请求第一页面的信息。通过返回的信息，PagingToolbar可以显示返回信息、页数信息和设置翻页的功能.每当点击下一页时，PagingToolbar会自动调用store.load()。服务器端主要工作是打包一页信息返回给页面。</p>
+
+</div>
 <style type="text/css">
         body{background:#f5f5d5;}
         .main{position: relative; margin: 0 auto; width: 800px; padding: 10px;}
