@@ -1,0 +1,68 @@
+---
+layout: default
+title: body和documentElement的区别
+---
+
+<h1>body和documentElement的不同</h1>
+		<div class="main">
+		<p class="nav">本文只测试在非xhtml模式下的不同，本文只测试Height属性，其它属性基本表现上是和Width属性相同的。</p>
+
+		<pre>
+			测试内容为：
+			document.body.clientHeight
+			document.body.offsetHeight
+			document.documentElement.clientHeight
+			document.documentElement.offsetHeight
+			document.body.scrollTop
+			document.documentElement.scrollTop
+			测试网页为：http://blog.csdn.net/mathewsking/article/details/4539997
+		</pre>
+		<div class="code">
+		<h5>Chrome中的测试结果为：</h5>
+		<pre>
+			document.body.clientHeight : 3372
+			document.body.offsetHeight : 3372
+			document.documentElement.clientHeight : 302
+			document.documentElement.offsetHeight : 3372
+			document.body.scrollTop : 562
+			document.documentElement.scrollTop : 0
+		</pre>
+		</div>
+		<div class="code">
+		<h5>火狐中的测试结果为：</h5>
+		<pre>
+			document.body.clientHeight : 3373
+			document.body.offsetHeight : 3373
+			document.documentElement.clientHeight : 191
+			document.documentElement.offsetHeight : 3373
+			document.body.scrollTop : 0
+			document.documentElement.scrollTop ： 808
+		</pre>
+		</div>
+		<div class="code">
+		<h5>ie8.0中的测试结果为：</h5>
+		<pre>
+			document.body.clientHeight ：3377
+			document.body.offsetHeight ：3377
+			document.documentElement.clientHeight ：472
+			document.documentElement.offsetHeight ：493
+			document.body.scrollTop ：0
+			document.documentElement.scrollTop ：425
+		</pre>
+		</div>
+		<p>通过以上的小测试可以看出document.body.clientHeight和document.body.offsetHeight可以用于获取整个页面的高度，document.document.clientHeight可以用于获取当前浏览器窗口大小。要获取浏览器顶部距离页面顶部的距离要结合body和documentElement来共同实现。</p>
+		<p>本次测试的结果还不完善，火狐不同版本和opera等浏览器没测试</p>
+		</div>
+		<style type="text/css">
+		body{background:#f5f5d5;}
+		.main{position: relative; margin: 0 auto; width: 800px; padding: 10px;}
+		h1{text-align: center;}
+		h3{text-align: left; color: black; padding: 5px; padding-left: 20px; margin-top: 30px; }
+		h5{padding-left: 45px;}
+		textarea{width: 700px; margin-left: 45px; height: 200px; text-align: left;}
+		.code{border:5px solid #ccc; border-radius: 10px; padding-bottom: 10px;}
+		.h200{height: 200px;}
+		.h150{height: 150px;}
+		.h300{height: 300px;}
+		.h50{height: 50px;}
+		</style>
