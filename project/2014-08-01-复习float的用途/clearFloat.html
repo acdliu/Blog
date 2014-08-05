@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>清除浮动</title>
+		<style type="text/css">
+		/*第一种方法：通过添加div来添加后置样式*/
+		.parent {background: #ddd; margin-top: 20px;}
+		.float { float: right;}
+		.removeFloat{clear: both;}
+
+		/*第二种方法：将父节点也设置为浮动*/
+		.setFloat{float: left;}
+
+		/*第三种方法：通过设置父节点的overflow*/
+		.setOverflow{overflow: hidden;}
+		.setOverflow2{overflow: auto;}
+
+		/*第四种方法：通过伪元素*/
+		.clear:after{content:""; display: block; height: 0; visibility: visible; clear: both;}
+
+		/*第五种方法：添加高度*/
+		.setHeight{height: 500px;}
+
+		</style>
+	</head>
+	<body>
+
+		<div class="parent">
+		这里是第一种清除浮动方法
+			<div class="float">
+				<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+			</div>
+			<div class="removeFloat"></div>
+		</div>
+
+
+		<div class="parent setFloat">
+		这里是第二种清除浮动方法,这种方法会影响布局
+			<div class="float">
+				<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+			</div>
+		</div>
+		<div class="removeFloat"></div>
+
+
+		<div class="parent setOverflow">
+		这里是第三种清除浮动方法
+			<div class="float">
+				<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+			</div>
+		</div>
+
+		<div class="parent clear">
+		这里是第四种清除浮动方法
+			<div class="float">
+				<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+			</div>
+			<div class="removeFloat"></div>
+		</div>
+
+
+		<div class="parent setHeight">
+		这里是第五种清除浮动方法，直接设置父节点的高度
+			<div class="float">
+				<img src="pic/09e343166d224f4a635b7da908f790529922d166.jpg">
+			</div>
+			<div class="removeFloat"></div>
+		</div>
+
+	</body>
+</html>

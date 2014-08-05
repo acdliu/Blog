@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>测试jsonp的使用</title>
+		<script type="text/javascript" src="script/jquery-1.11.1.min.js">
+		</script>
+		<script type="text/javascript">
+		var productJSONP;
+		window.onload = function(){
+		
+		//一个产生jsonp建立和接收对象
+		 function getData(){
+
+
+			var object = {};
+
+			//一个创建script标签的函数
+			object.create = function(url){
+
+			   var oStript = document.createElement("script");
+			   oStript.src = url;
+			   var oHead = document.getElementsByTagName("head")[0];
+			   oHead.appendChild(oStript);
+
+			};
+
+
+			// 这是处理传递回来的json数据的处理函数
+			object.analyse = function(){
+				var json = arguments[0];
+				var oDiv = document.getElementsByTagName("div")[0];
+				for(var i in json)
+				{
+					oDiv.textContent += json[i]+"   ";
+				}
+			}
+			
+			return object;
+		};
+		productJSONP = getData();
+		productJSONP.create("http://www.liupc.com/jsonp.js?callback=productJSONP.analyse");}
+		
+		</script>
+	</head>
+	<body>
+		<div class="showJson"></div>
+	</body>
+</html>

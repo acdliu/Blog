@@ -1,0 +1,73 @@
+'@function:获取url数据练习
+'@author:liuzhiheng
+Sub Initialize
+	On Error Goto errormsg
+	
+	dim tempArray as variant '定义一个泛型，之后用作字符串数组
+	dim sql as string ’定义一个字符串，用来保存sql代码
+	dim index as integer '整形，用作字符串数组的下标
+	dim session as new notessession '一个session对象
+	dim cdoc as notesdocument ’定义一个文档类型
+	set cdoc = session.documentcontext ’为文档类型赋值
+	dim qry as string ’用来保存get请求?后面的字符串
+	'定义数据查找数据变量
+	dim fldLst as new lcfieldList
+	dim result as string
+	dim out as string
+	dim temp as string
+	dim total as integer
+	
+	dim start as integer
+	dim limit as integer
+	dim rend as integer
+	
+	qry = cdoc.Query_String_Decoded(0) '取得get方法传递过来的数据数据
+    
+     '判断客户端是否传递过来每页限制，如果没有默认10条信息每页
+     if len(WF_Document.start(0))<>0 then
+	   start = cint(WF_Document.start(0))
+	   limit = cint(WF_Document.limit(0))
+	else
+	   start = 0
+	   limit = 10
+	end if
+	
+	’设置查找数据终点
+	rend =  start+limit
+	
+	tempArray = split(qry,"&")
+	sql = ""
+     
+	'拼接查询语句
+	for index=2 to ubound(tempArray)
+	sql = sql+tempArray(index)+","
+	next
+	sql = "select "+strleftback(sql,",")+" from bookTable" '这里还有一种方法是通过join来合并字符串来实现
+	
+	result=""
+	total=0
+	call WF_Con.execute(sql,fldLst) ’连接数据库
+	while WF_Con.fetch(fldLst)
+	 if (total>=start and total<rend) then
+	 for index=2 to (ubound(tempArray)-1)
+	 ’拼接json语句
+	 temp = temp+tempArray(index)+|:'|+fldLst.lookup(tempArray(index)).text(0)+|',|
+	 next
+	temp = temp+tempArray(ubound(tempArray))+|:'|+fldLst.lookup(tempArray(ubound(tempArray))).text(0)+|',|		 
+		 msgbox tempArray(ubound(tempArray))
+	 	 temp = |{|+strleftback(temp,",")+|},|
+	 result = result + temp
+	 temp = ""
+	 end if
+	 total = total+1
+	wend
+	result = |{totalP:|+cstr(total)+|,bookMessage:[|+strleftback(result,",")+|]}|
+	
+	’返回json
+	print "Content-type:application/json;charset=utf-8"
+	print result
+	
+	Exit Sub
+errormsg:
+	Msgbox "Rule Error:" & Str(Erl) & "  " & Error
+End Sub
