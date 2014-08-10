@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8" />
+	<title>图片轮转</title>
+	<style type="text/css">
+	*{margin: 0;padding:0;}
+	ul,li{list-style: none;}
+	.container{position: relative; width: 240px; height: 350px; border:1px solid black; border-radius: 5px; overflow: hidden; }
+	.control{position: absolute; bottom: 0; right: 0; height: 25px;}
+    ul{position:relative; width: 1200px; font-size: 0; left:0px;}
+    li{display: inline-block;}
+    img{width: 240px;}
+    /*设置a全状态下的样式*/
+    a{color: #000; text-decoration: none; display: inline-block; width: 10px; border: 1px solid #000; margin-right: 4px;}
+    a:hover{color: #000; }
+    a:active{ color:#000;}
+    a:link{color:#000;}
+	</style>
+	<script type="text/javascript">
+	window.onload = function(){
+		//必要函数:根据类名来查找对象和获取当前对象的样式
+	    /*function getByClassName(obj,classname){
+
+	    	var aClass = [];
+	    	var rule = "(^|\\b)"+classname+"($|\\b)";
+	    	var reg = new RegExp(rule,"g");
+	    	var allTage = document.getElementsByTagName("*");
+
+	    	for(var i=0;i<allTage.length;i++)
+	    	{
+	    		if(allTage[i].className.match(reg)!=null)
+	    		{
+	    			aClass.push(allTage[i]);
+	    		}
+	    	}
+
+	    	return aClass;
+	    }
+*/
+		
+		document.getElementsByClassname = function(ClassName){
+
+				var aAllTag = document.getElementsByTagName("*");
+				var aAllClass = [];
+				var rule = "(^|\\b)"+ClassName+"($|\\b)";
+				var reg = new RegExp(rule,"g");
+
+				for(var i=0;i<aAllTag.length;i++)
+				{
+					if(aAllTag[i].className.match(reg)!=null)
+					{
+						aAllClass.push(aAllTag[i]);
+					}
+				}
+
+				return aAllClass;
+			}
+
+	    function getCurrentStyle(obj,style){
+
+				if(obj.currentStyle)
+				{
+					return obj.currentStyle[style];
+				}
+				else
+				{
+					return document.defaultView.getComputedStyle(obj,null)[style];
+				}
+		}
+
+		function setStyle(obj,style,str)
+		{
+			if(obj.currentStyle)
+				{
+					obj.currentStyle[style] = str;
+				}
+				else
+				{
+					 document.defaultView.getComputedStyle(obj,null)[style] = str;
+				}
+		}
+
+		//设置一个自动轮转的Interval
+		//移动函数
+		function setLeft(num)
+		{
+			var left = (-(num-1) * 240)+"px";
+			var oMain = document.getElementsByClassname("mianShow");
+			var oUl = document.getElementsByTagName("ul")[0];
+			
+			oUl.style.left = left;
+		}
+
+		var aALink = document.getElementsByTagName("a");
+		for(var i=0;i<aALink.length;i++)
+		{
+			aALink[i].index = i+1;
+			aALink[i].onclick = function(){
+
+				setLeft(this.index);
+			}
+		}
+
+
+	}
+	</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="mianShow">
+				<ul class="showList">
+					<li><img src="1.jpg"></li>
+					<li><img src="2.jpg"></li>
+					<li><img src="3.jpg"></li>
+					<li><img src="4.jpg"></li>
+					<li><img src="5.jpg"></li>
+				</ul>
+				<div class="control"><a href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a></div>
+			</div>
+		</div>
+	</body>
+</html>
