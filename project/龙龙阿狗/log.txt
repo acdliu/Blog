@@ -1,1 +1,2 @@
 Java做的blob系统，了解mvc架构时用的，有点久远的历史的，所以取个名字longlongago
+添加了之前做的练习

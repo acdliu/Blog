@@ -1,0 +1,262 @@
+<!--最简单的瀑布流的实现，该瀑布流限定流中每个元素的高度和长度-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>simple waterfall</title>
+		<style type="text/css">
+		*{margin: 0; padding: 0;}
+		#container{font-size: 0;}
+		#bottom{ display: block; width: 100px; height: 20px; border-radius: 5px; box-shadow: 5px 5px 5px #ccc; text-align: center;}
+		.indexMove{margin: 0px;padding: 0px;}
+		.indexMove{ position: relative; display: inline-block; height: 200px; width: auto; border:10px solid black; overflow: hidden; margin-left: 5px; margin-top:5px;}
+		.indexMove img{position: relative; height: 200px; z-index: 0;}
+		.index {position: absolute; bottom: 0px; height: 40px; width: 100%; z-index: 1; background: rgba(204,204,204,0.5); font-size: 12px;}
+		.indexMove{*display: inline;}/*在ie8.0中，使用inline-block要设置宽度*/
+		</style>
+		<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+		window.onload = function(){
+
+			function getCurrentStyle(obj,style){
+
+				if(obj.currentStyle)
+				{
+					return obj.currentStyle[style];
+				}
+				else
+				{
+					return document.defaultView.getComputedStyle(obj,null)[style];
+				}
+			}
+			//为document属性添加一个getElementsByClassname方法
+			document.getElementsByClassname = function(ClassName){
+
+				var aAllTag = document.getElementsByTagName("*");
+				var aAllClass = [];
+				var rule = "(^|\\b)"+ClassName+"($|\\b)";
+				var reg = new RegExp(rule,"g");
+
+				for(var i=0;i<aAllTag.length;i++)
+				{
+					if(aAllTag[i].className.match(reg)!=null)
+					{
+						aAllClass.push(aAllTag[i]);
+					}
+				}
+
+				return aAllClass;
+			}
+
+			var aIndexMove = document.getElementsByClassname("indexMove");
+			//这里可以考虑按照委托来实现
+			for(var i=0;i<aIndexMove.length;i++)
+			{
+				aIndexMove[i].onmouseover = function(){
+					var oIndex = this.getElementsByTagName("div")[0];
+					
+				}
+			}
+
+			//加载事件兼容器ie8.0以上
+			function addEvent(obj,fun,type){
+
+				if(obj.addEventListener)
+				{
+					obj.addEventListener(type,fun,false);
+				}else
+				{
+					obj.attachEvent("on"+type,fun);
+				}
+
+			}
+			//添加按钮事件
+			var oBtn = document.getElementById("bottom");
+			
+			function dealClick(){
+				var oDiv = document.getElementById("container");
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+				oDiv.innerHTML += '<div class="hello indexMove other"><img src="1.jpg"><div class="index"><p>这里是测试图片</p><a href="#">download</a></div></div>';
+			}
+
+			addEvent(oBtn,dealClick,"click");
+
+
+			window.onscroll = function(){
+
+				var scrollTop = $(this).scrollTop();
+				var scrollHeight = $(document).height();
+				var windowHeight = $(this).height();
+
+				if(scrollTop+windowHeight >= scrollHeight)
+				{
+					oBtn.click();
+				}
+			}
+		}
+
+
+		</script>
+	</head>
+	<body>
+		<div id="container">
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="2.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other" >
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="2.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other" >
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="2.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other" >
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+
+
+		<div class="hello indexMove other">
+			<img src="1.jpg">
+			<div class="index">
+				<p>这里是测试图片</p>
+				<a href="#">download</a>
+			</div>
+		</div>
+		</div>
+		<a id="bottom" name="bottom" href="#bottom">加载更多</a>
+	</body>
+</html>
