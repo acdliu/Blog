@@ -69,18 +69,6 @@
 				}
 		}
 
-		function setStyle(obj,style,str)
-		{
-			if(obj.currentStyle)
-				{
-					obj.currentStyle[style] = str;
-				}
-				else
-				{
-					 document.defaultView.getComputedStyle(obj,null)[style] = str;
-				}
-		}
-
 		//设置一个自动轮转的Interval
 		//移动函数
 		function setLeft(num)
@@ -102,6 +90,60 @@
 			}
 		}
 
+		//为showList添加一个li
+		var oUl = document.getElementsByClassname("showList")[0];
+		oUl.innerHTML = oUl.innerHTML + oUl.innerHTML;
+		
+		oUl.style.width = parseInt(getCurrentStyle(oUl,"width"))*2 + "px";
+
+		var timer = setInterval(function(){
+
+			var speed = -4;
+			var current = parseInt(getCurrentStyle(oUl,"left"));
+			if(current<=-1200)
+			{
+				oUl.style.left = "0px";
+			}else
+			{
+				current = current + speed;
+				oUl.style.left = current + "px";
+
+			}
+
+
+
+		},100);
+
+		var aLi = document.getElementsByTagName("li");
+		
+		for(var i=0;i<aLi.length;i++)
+		{
+			aLi[i].addEventListener("mouseover",function(){
+				clearInterval(timer);
+			},false);
+
+			aLi[i].addEventListener("mouseout",function(){
+
+				timer = setInterval(function(){
+
+			var speed = -4;
+			var current = parseInt(getCurrentStyle(oUl,"left"));
+			if(current<=-1200)
+			{
+				oUl.style.left = "0px";
+			}else
+			{
+				current = current + speed;
+				oUl.style.left = current + "px";
+
+			}
+
+
+
+		},100);
+
+			},false);
+		}
 
 	}
 	</script>
