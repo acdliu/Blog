@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>图片轮转</title>
+		<style type="text/css">
+		*{margin: 0;padding:0;}
+		ul,li{list-style: none;}
+		.container{position: relative; width: 240px; height: 350px; border:1px solid black; border-radius: 5px; overflow: hidden; }
+		.control{position: absolute; bottom: 0; right: 0; height: 25px;}
+    	ul{position:relative; width: 1200px; font-size: 0; left:0px;}
+    	li{display: inline-block;}
+    	img{width: 240px;}
+    	/*设置a全状态下的样式*/
+    	a{color: #000; text-decoration: none; display: inline-block; width: 10px; border: 1px solid #000; margin-right: 4px;}
+    	a:hover{color: #000; }
+    	a:active{ color:#000;}
+    	a:link{color:#000;}
+		</style>
+		<script type="text/javascript">
+		window.onload = function(){
+			//首先为a添加点击事件
+			var aLink = document.querySelectorAll("a");
+			var oUl = document.querySelector(".showList");
+			var timer = null;
+			for(var i=0;i<aLink.length;i++)
+			{
+				aLink[i].index = i;
+				aLink[i].addEventListener("click",function(){
+
+					var left = -240 * this.index + "px";
+					oUl.style.left = left;
+				},false);
+			}
+
+			//获取元素当前样式
+			function getStyle(obj,style){
+
+				if(obj.currentStyle)
+				{
+					return obj.currentStyle[style];
+				}
+				else
+				{
+					return document.defaultView.getComputedStyle(obj,null)[style];
+				}
+			}
+
+			//考虑到轮转的完整性，在右边一个第一个<li><img></li>对象
+			//这里为了方便直接加多个
+			oUl.innerHTML = oUl.innerHTML + oUl.innerHTML;
+			//修改oUl的宽度使其变为一列
+			oUl.style.width = parseInt(getStyle(oUl,"width"))*2 + "px";
+			//(getStyle(oUl,"width"));
+
+			function start(){
+
+				timer = setInterval(function(){
+
+					var speed = -4;
+					var current = parseInt(getStyle(oUl,"left"));
+
+					if(current <= -1200)
+					{
+						oUl.style.left = (current + 1200) + "px";
+					}
+					else
+					{
+						oUl.style.left = (current + speed) +"px";
+					}
+				},100);
+			}
+
+			function stop(){
+				clearInterval(timer);
+			}
+
+			start();
+
+			//为全部li设置开关定时器
+			oUl.addEventListener("mouseover",function(e){
+				stop();
+			},false);
+			oUl.addEventListener("mouseout",function(e){
+				start();
+			},false);
+
+			//未解决问题：setInterval一定要在全局作用域中吗？
+		}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="mianShow">
+				<ul class="showList">
+					<li><img src="1.jpg"></li>
+					<li><img src="2.jpg"></li>
+					<li><img src="3.jpg"></li>
+					<li><img src="4.jpg"></li>
+					<li><img src="5.jpg"></li>
+				</ul>
+				<div class="control"><a href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a></div>
+			</div>
+		</div>
+	</body>		
+	</body>
+</html>
