@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>内联标签</title>
+		<style type="text/css">
+		.show{ position: relative; width: 500px; height: 180px; border:1px solid black; margin:10px auto; /*overflow: auto;*/ }
+		.showMessage{width: 450px; height: 140px; border:1px solid black; margin: 5px auto; list-style: none; padding: 0; overflow: auto;}
+		.showMessage li{margin-left: 10px; margin-top: 15px; border-radius: 15px; width: auto; height: auto; background:#cccccc;
+			display: block; list-style: none; }
+		.setBottom{position: absolute; bottom 0; left: 50%; margin-left: -125px; width: 250px; height: 25px; border:1px solid black; margin-top:0px;}
+		.right{text-align: right; right: 10px;}
+
+		</style>
+		<script type="text/javascript">
+		document.domain = "liupc.com"
+		var addData;
+		window.onload = function(){
+			var oBtn = document.getElementById("btn");
+			var oUl = document.getElementById("show");
+			var oText = document.getElementsByTagName("input")[0];
+			//获得窗口的上一级窗口
+			var parentWin = window.parent;
+			function createLi(data){
+
+				var oLi = document.createElement("li");
+				oLi.textContent = data;
+				return oLi;
+			}
+
+			addData = function(data,style){
+
+				var oLi = createLi(data);
+				if(style == "right")
+				{
+					oLi.className="right";
+				}
+				oUl.appendChild(oLi);
+			}
+
+			oBtn.onclick = function(){
+				var text = oText.value;
+				//在自己的窗口添加消息
+				addData(text,"left");
+				//在父窗口添加消息
+				parentWin.addData(text,"right");
+				oText.value = "";
+
+			}
+
+		}
+
+		</script>
+	</head>
+	<body>
+		<div class="show">
+			<ul id="show" class="showMessage"></ul>
+			<p class="setBottom"><input type="text" id="text"/><button id="btn">发送</button></p>
+		</div>
+	</body>
+</html>

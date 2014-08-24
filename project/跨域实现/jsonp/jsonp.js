@@ -1,0 +1,1 @@
+productJSONP.analyse({"username":"liu","age":"24"});

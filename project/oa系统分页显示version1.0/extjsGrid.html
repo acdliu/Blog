@@ -1,0 +1,124 @@
+---
+layout: default
+title: 闭包小解释
+---
+
+<h3>extjs分页的实现</h3>
+<p>extjs中的分页是通过store.load()函数和PagingToolbar以及后台代码共同运作实现的.在页面前端,可以通过store.load({params{start:0,limit:20}})告诉后台服务器我要取从start到start+limit之间的这段数据,但它不能限制从客户端传过来的数据为20条.所以要实现分页的效果的话要依赖于客户端来传递回每页数据.</p>
+<p>如下面代码所示,连接服务器获取数据和解析过程的代码如下,proxy是请求的链接地址.下面代码中解析出的json格式是:{total:5,bookMessage:[bookId:"5",bookname:"斗破",author:"土豆",publishDate:"2012-01-05",publisher:"湖南出版社",isbn:"56656"]}.JsonReader的解析的对象是一个包含返回数据信息的描述和数据内容组成的一个json对象.</p>
+
+<div class="code">
+<h5>extjs分页之store的写法和用途</h5>
+<textarea>
+//从规则中获取数据     
+    var store = new Ext.data.Store({
+        proxy:new Ext.data.HttpProxy({//请求数据的链接
+            url:'WF_RunRuleWeb?openagent&RuleNum=RUTL01_001'
+        }),//json格式的解析
+        reader:new Ext.data.JsonReader({root:"bookMessage",totalProperty:"total"},[
+            { name:'bookId'},
+            { name:'bookname'},
+            { name:'author'},
+            { name:'publishDate'},
+            { name:'pubisher'},
+            { name:'isbn'}
+         ])
+        });
+   store.load({params:{start:0,limit:10}});//每次请求信息条数,其实这里只是请求第一页的数据和一些PagingToolbar的基本信息.
+</textarea>
+</div>
+
+<p>PagingToolbar是前端分页实现的核心,它需要从store中获取数据,要实现分页一定要设置pageSize和totalProperty.pageSize是每页显示信息条数,最重要的是PagingToolbar会向后台请求下一页时发出store.load{{params:{start:start+pageSize,limit:pageSize}}}的请求,请求前一页会发出store.load({params:{start:start-pageSize,limit:pageSize}});的请求</p>
+<p>totalProperty是全部分页的总信息条数,用于计算页数.</p>
+<div class="code">
+<h5>extjs分页之PagingToolbar</h5>
+<textarea>
+//分页设置
+    var tagping = new Ext.PagingToolbar({
+        pageSize:10,//每页信息条数
+        totalProperty:'total',//总信息条数
+        store:store,//数据源
+        displayInfo:true,
+        displayMsg:"显示第{0}条到第{1}条数据,共{2}条数据",
+        emptyMsg:"没有记录"
+    });
+</textarea>
+</div>
+
+<p>后台是分页的核心,它每次都会返回一个分页的数据信息以及分页信息.它的实现很简单,通过数据库搜索取出全部数据再筛选出start之后的limit数据拼接成json返回客户端就可以了.</p>
+<div class="code">
+<h5>以下是通过vb来连接数据库来获取数据信息</h5>
+<textarea>
+<code>
+Sub Initialize
+On Error Goto errormsg
+'定义sql语句变量
+dim sql as string
+'定义输出缓存变量
+dim json as string
+dim jsonOut as string
+'定义输出限制变量
+dim start as integer
+dim total as integer
+dim count as integer
+dim limit as integer
+'定义文档缓存
+dim fidLst as new lcfieldList
+'设置输出限制,第start条到limit条
+if len(WF_Document.start(0))<>0 then
+	start = cint(WF_Document.start(0))
+	limit = cint(WF_Document.limit(0))
+else
+    start = 0
+	limit = 2
+end if
+	
+'设置数据条终点
+total = start+limit
+	
+sql = "select * from booktable"
+json = ""
+jsonOut = ""
+count = 0
+call WF_Con.execute(sql,fidLst)
+while WF_Con.fetch(fidLst)>0
+	'提取limit-start条数据
+	if (count>=start and count<total) then
+	json = |{bookId:"|+fidLst.lookup("bookId").text(0)+_
+	|",bookname:"|+fidLst.lookup("bookname").text(0)+_
+	|",author:"|+fidLst.lookup("author").text(0)+_
+	|",publishDate:"|+fidLst.lookup("publishDate").text(0)+_
+	|",pubisher:"|+fidLst.lookup("pubisher").text(0)+_
+	|",isbn:"|+fidLst.lookup("isbn").text(0)+|"}|
+	jsonOut = jsonOut+|,|+json
+	end if
+	count = count+1	
+wend
+		
+jsonOut = |{total:|+cstr(count)+|,bookMessage:[|+strright(jsonOut,",")+|]}|
+	
+print "content-type:application/json;charset=utf-8"
+print jsonOut
+	
+	Exit Sub
+errormsg:
+	Msgbox "Rule Error:" & Str(Erl) & "  " & Error
+End Sub
+</code>
+</textarea>
+</div>
+<h3>分页实现总结</h3>
+<p>分页是前后端共同协作来实现的效果.extjs分页的过程是:前端设置好store路径和解析数据格式配置,通过store.load()来向服务器请求第一页面的信息。通过返回的信息，PagingToolbar可以显示返回信息、页数信息和设置翻页的功能。服务器端主要做好返回相应的数据即可</p>
+<style type="text/css">
+        body{background:#f5f5d5;}
+        .main{position: relative; margin: 0 auto; width: 800px; padding: 10px;}
+        h1{text-align: center;}
+        h3{text-align: left; color: black; padding: 5px; padding-left: 20px; margin-top: 30px; }
+        h5{padding-left: 45px;}
+        textarea{width: 700px; margin-left: 45px; height: 200px; text-align: left;}
+        .code{border:5px solid #ccc; border-radius: 10px; padding-bottom: 10px;}
+        .h200{height: 200px;}
+        .h150{height: 150px;}
+        .h300{height: 300px;}
+        .h50{height: 50px;}
+        </style>

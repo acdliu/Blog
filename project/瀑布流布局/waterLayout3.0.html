@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>图片轮转</title>
+		<style type="text/css">
+		/*css reset*/
+		*{margin: 0;padding: 0;}
+		a{text-decoration: none;}
+		a:link{color: #000;}
+		a:visited{color: #000;}
+		a:hover{color: #000;}
+		a:active{color: #000;}
+		
+		
+		.container{font-size: 0; position: relative;  -webkit-column-width: 180px; -moz-column-width: 180px; }
+		.container a{ position: relative; display: inline-block; color: #000; width: 150px; border: 1px solid #000; border-radius: 5px; -webkit-box-shadow:3px 3px 3px #ccc;
+		-moz-box-shadow:3px 3px 3px #ccc; padding: 10px;}
+		.container img{ width: 100%; height: auto;}
+		.container .message{ font-size: 12px; bottom: 0px; width: 100%; height: 25px; color: black; background: #fff;}
+		</style>
+		<script type="text/javascript" src="tool.js"></script>
+		<script type="text/javascript">
+		window.onload = function(){
+			var oContainer = document.getElementsByClassName("container")[0];
+
+			window.onscroll = function()
+			{
+				var aTop = document.body.scrollTop || document.documentElement.scrollTop;
+				var aWindow = document.documentElement.clientWidth;
+				console.log(aTop);
+				console.log(aWindow);
+				if((aTop+aWindow+40)>=document.documentElement.scrollHeight)
+				{
+
+					oContainer.innerHTML += oContainer.innerHTML;
+				}
+			}
+			
+
+		}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			
+			<a class="item" href="">
+				<img class="picture" src="31.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="32.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="33.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="1.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="31.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="32.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="33.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="1.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="31.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="32.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="33.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="1.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="31.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="32.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="33.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+
+			<a class="item" href="">
+				<img class="picture" src="1.jpg">
+				<div class="message">
+				 打工吧！魔王大人
+				</div>
+			</a>
+		</div>
+	</body>
+</html>

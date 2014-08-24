@@ -1,0 +1,134 @@
+//Ext onready start
+Ext.onReady(function(){
+
+  //获取button,添加button事件
+  var oBtn = document.getElementById("submit");
+  //来个兼容性处理
+  function addAction(object,fun,type)
+  {
+    if(window.addEventListener){
+      object.addEventListener(type,fun,false);
+    }
+    else if(window.attachEvent)
+    {
+      object.attachEvent('on'+type,fun);
+    }
+    else
+    {
+      return false;
+    }
+    return true;
+  }
+  
+  function createObj(objInput){
+    return {header:objInput.nextSibling.nodeValue,dataIndex:objInput.value,sortable:true};
+  }
+  //这里是生成动态ColumnModel的构造数组
+  function createDCm(){
+    var oInput = document.getElementsByName("book");
+    var cm = [];
+    //全选设置
+    if(oInput[0].checked == true)
+    {
+      for(var i=1;i<oInput.length;i++)
+      {
+        oInput[i].checked = true;
+        cm.push(createObj(oInput[i]));
+      }
+      
+      return cm;
+    }
+   //部分选取设置
+   for(var i=1;i<oInput.length;i++)
+   {
+     if(oInput[i].checked == true)
+     {
+       cm.push(createObj(oInput[i]));
+     }
+   }
+   
+   return cm;
+
+  }
+  
+  //根据cm的构造数组生成一个url
+  function createUrl(cm){
+    var urlafter = "";
+    var url = 'WF_RunRuleWeb?openagent&RuleNum=RUTL01_002';
+    
+    for(var i=0;i<cm.length;i++)
+    {
+     urlafter = urlafter+"&"+cm[i].dataIndex;
+    }
+    
+    url = url+urlafter;
+    return url;
+  }
+ 
+ //根据json生成数据解析格式 
+  function createType(cm){
+    var result = [];
+    for(var i=0;i<cm.length;i++)
+    {
+      var temp = { name:cm[i].dataIndex };
+      result.push(temp);
+    }
+    
+    return result;
+  }
+  
+  addAction(oBtn,function(){
+    document.getElementById("grid").innerHTML = ""
+    var result = createDCm();//cm
+    var url = createUrl(result);
+    var dataType = createType(result);
+    
+    
+     var store = new Ext.data.Store({
+            proxy:new Ext.data.HttpProxy({
+              url:url
+            }),
+       reader:new Ext.data.JsonReader({root:"bookMessage",totalProperty:"totalP"},[
+              { name:'bookId'},
+              { name:'bookname'},
+              { name:'author'},
+              { name:'publishDate'},
+              { name:'pubisher'},
+              { name:'isbn'},
+            ])
+     });
+    store.load({params:{start:0,limit:10}});
+    
+    
+    /*
+    var store = new Ext.data.Store({
+      proxy:new Ext.data.HttpProxy({url:url}),
+      reader:new Ext.data.JsonReader({root:bookMesage},dataType);
+    });
+    store.load();*/
+    
+    var cm = new Ext.grid.ColumnModel(result);
+   
+   
+    var gPage = new Ext.PagingToolbar({
+      pageSize:10,
+      totalProperty:'totalP',
+      store:store,
+      displayInfo:true,
+      displayMsg:"显示第{0}条到第{1}条数据,共{2}条数据",
+      emptyMsg:"没有记录"
+    });
+    
+    var grid = new Ext.grid.GridPanel({
+          title:"标题",
+          cm:cm,
+          store:store,
+          renderTo:'grid',
+          width:800,
+          autoHeight:true,
+         bbar:gPage
+        });  
+    
+  },"click");
+   
+});

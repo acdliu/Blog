@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>瀑布流</title>
+		<style type="text/css">
+		*{margin:0;padding: 0; }
+		.indexMove{width: 200px; height: auto; border: 1px solid #ccc; padding: 5px; border-radius: 3px; box-shadow: 3px 3px 4px #ccc;}
+		.indexMove img{width: 200px;height: auto;}
+		.indexMove ul,li{margin: 0; padding: 0; list-style: none;}
+		li { margin-top:10px; margin-left: 5px; font-size: 12px; font-family: "宋体",Arial,helvetica,sansserif;}
+		a{text-decoration: none;}
+		a:hover{color: black;}
+		a:link{color: black;}
+		a:active{color: black;}
+		.line{float: left; margin: 5px;}
+		.line1{margin-left:10px; }
+		
+		#container{ position: relative; background: #ccc; width: 960px; margin: 0 auto;}
+		.clearFloat{clear: both;}
+		</style>
+
+		<script type="text/javascript">
+		window.onload = function(){
+			//获取所有button
+			var aBtn = document.getElementsByTagName("button");
+			document.getElementsByClassname = function(ClassName){
+
+				var aAllTag = document.getElementsByTagName("*");
+				var aAllClass = [];
+				var rule = "(^|\\b)"+ClassName+"($|\\b)";
+				var reg = new RegExp(rule,"g");
+
+				for(var i=0;i<aAllTag.length;i++)
+				{
+					if(aAllTag[i].className.match(reg)!=null)
+					{
+						aAllClass.push(aAllTag[i]);
+					}
+				}
+
+				return aAllClass;
+			}
+
+			var aLine = document.getElementsByClassname("line");
+			//标记下一个添加图片块的line
+			var i = 0;
+			function addABox(){
+
+				var picId = parseInt(Math.random()*4) + 1;
+
+				aLine[i].innerHTML += '<div class="indexMove"><img src="'+picId+'.jpg" /><ul><li class="title"><a href="#">遇见古村</a></li><li class="description">带队的鸟叔</li><li class="author">紫星</li></ul></div>';
+				i = (i+1)%4;
+			}
+
+			function addSBox(){
+
+				for(var j=0;j<10;j++)
+				{
+					addABox();
+				}
+			}
+
+			aBtn[0].onclick = function(){
+				addABox();
+			}
+
+			aBtn[1].onclick = function(){
+				addSBox();
+			}
+
+			window.onscroll = function(){
+
+				if((document.documentElement.scrollTop+document.documentElement.clientWidth) >= document.body.clientWidth)
+				{
+					aBtn[1].click();
+				}
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<div id="container"> haha
+			<div class="line line1">
+			<div class="indexMove">
+				<img src="1.jpg" />
+				<ul>
+					<li class="title"><a href="#">遇见古村</a></li>
+					<li class="description">带队的鸟叔</li>
+					<li class="author">紫星</li>
+				</ul>
+			</div>
+			</div>
+
+			<div class="line line2">
+			<div class="indexMove">
+				<img src="2.jpg" />
+				<ul>
+					<li class="title"><a href="#">遇见古村</a></li>
+					<li class="description">带队的鸟叔</li>
+					<li class="author">紫星</li>
+				</ul>
+			</div>
+			</div>
+
+			<div class="line line3">
+			<div class="indexMove">
+				<img src="3.jpg" />
+				<ul>
+					<li class="title"><a href="#">遇见古村</a></li>
+					<li class="description">带队的鸟叔</li>
+					<li class="author">紫星</li>
+				</ul>
+			</div>
+			</div>
+
+			<div class="line line4">
+			<div class="indexMove">
+				<img src="4.jpg" />
+				<ul>
+					<li class="title"><a href="#">遇见古村</a></li>
+					<li class="description">带队的鸟叔</li>
+					<li class="author">紫星</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+		<div class="clearFloat">here<button>添加一个图片</button><button>添加一组图片</button></div>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>测试跨域访问</title>
+		<style type="text/css">
+		body{text-align: center;}
+		.showMessage{ position: relative; width: 800px; height:300px; border:1px solid black;
+			margin: 0 auto;
+		 }
+		.childWin{ position: relative; width: 800px; height: 200px; /*margin: 10px auto; */}
+		.test{position: relative; width: 300px; height: 200px; border:1px solid black; margin: 0 auto;}
+		.input{position: absolute; width: 300px; height: 25px; bottom: 0; left :50%;
+			border:1px solid black; margin-left:-150px; margin-bottom: 3px;}
+
+		.messageList{ margin: 5px 5px 5px 5px; padding: 0; border:1px solid black; list-style: none; height:260px; text-align: left; overflow: auto;}
+		.right{text-align: right; margin-right: 10px; margin-left: auto;}
+		.messageList li{margin-left: 10px; margin-top: 15px; border-radius: 15px; width: auto; height: auto; background:#f0ffff;
+			display: block; 
+		 }
+		 iframe{display: none;}
+		</style>
+		<script type="text/javascript">
+
+	    document.domain = "liupc.com";
+	    var addData;
+		window.onload = function(){
+
+			//首先设置全局域名
+
+			var oBtn = document.getElementById("btn");
+			var oUl = document.getElementById("messageList");
+			var oText = document.getElementsByTagName("input")[0];
+
+			oBtn.addEventListener("click",function(){
+					var text = oText.value;
+					addData(text,"left");
+					var ifaContent = window.frames[0];
+					ifaContent.addData(text,"right");
+					oText.value = "";
+
+
+			},false);
+
+			function createLi(data){
+
+				var oLi = document.createElement("li");
+				oLi.textContent = data;
+				return oLi;
+			}
+
+			addData = function(data,style){
+				var oLi = createLi(data);
+				if(style == "right")
+				{
+					oLi.className="right";
+				}
+				oUl.appendChild(oLi);
+			}
+
+			//生成一个iframe
+			function createIframe(src,fun){
+
+				var oIframe = document.createElement("iframe");
+				oIframe.src = "http://www.liupc.com/iframe2.html";
+				//待iframe加载完后的操作
+				oIframe.onload = fun;
+
+			}
+		}
+		</script>
+	</head>
+	<body>
+		
+		<div id="show" class="showMessage">
+			<ul id="messageList" class="messageList"></ul>
+			<p class="input"><input type="text" /><button id="btn">提交数据</button></p>
+		</div>
+
+	</body>
+</html>

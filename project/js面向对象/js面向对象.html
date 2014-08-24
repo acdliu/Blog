@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>js面向对象</title>
+		<script type="text/javascript">
+		window.onload = function(){
+			//字符串对象\
+			console.log("js面向对象的一些小知识点")
+			var str = "hello World";
+			var splitStr = str.substring(5);
+			console.log(typeof str);
+
+			var str1 = new String("hello World");
+			console.log(typeof str1);
+
+			console.log("###################");
+			console.log("js继承");
+
+			function Person(name,age){
+				var test = "hello"
+				this.name = name;
+				this.age = age;
+
+				this.sayHello = function(){
+					console.log(test);
+				}
+			}
+			Person.prototype.getName = function(){console.log(this.name);};
+			Person.prototype.getAge = function(){console.log(this.age);};
+			function Child(name,age,weight){
+				Person.call(this,name,age);
+				this.weight = weight;
+			}
+			Child.prototype = new Person();
+			Child.prototype.getWeight = function(){console.log(this.weight)};
+			var child = new Child("liu","2","20");
+			console.log("name:"+child.name);
+			console.log("age"+child.age);
+			console.log("weight"+child.weight);
+			child.getName();
+			child.getAge();
+			child.getWeight();
+			child.sayHello();
+
+		    console.log("############");
+
+		    function Person1(name,age){
+		    	var sName = name;
+		    	var nAge = age;
+
+		        this.getName = function(){
+		        	console.log(sName);
+		        }
+
+		        this.getAge = function(){
+		        	console.log(nAge);
+		        }
+
+		    }
+
+		    var p = new Person1("liu","age");
+		    p.getName();
+		    p.getAge();
+		    console.log(p.sName,p.age);
+		    console.log(p.hasOwnProperty("sName"));
+
+
+		    console.log("##########多态##############");
+
+		    function Person2(){
+
+		    	this.getCount = function(number){
+
+		    		if((typeof number) == "string")
+		    		{
+		    			return parseInt(number);
+		    		}
+		    		else if((typeof number) == "number")
+		    		{
+		    			return number;
+		    		}
+		    		else
+		    		{
+		    			return null;
+		    		}
+		    	}
+		    }
+
+		    var p2 = new Person2();
+		    console.log(p2.getCount("25"),p2.getCount(25));
+		    
+
+		}
+		</script>
+	</head>
+	<body>
+		
+	</body>
+</html> 

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>oa系统分页展示的实现</title>
+		<!-- 这里要加入Extjs的三个依赖包-->
+
+		<script type="text/javascript">
+			//Ext onready start
+Ext.onReady(function(){
+
+  //获取button,添加button事件,通过button和input动态生成
+  var oBtn = document.getElementById("submit");
+  
+  //添加事件的兼容性处理
+  function addAction(object,fun,type)
+  {
+    if(window.addEventListener){
+      object.addEventListener(type,fun,false);
+    }
+    else if(window.attachEvent)
+    {
+      object.attachEvent('on'+type,fun);
+    }
+    else
+    {
+      return false;
+    }
+    return true;
+  }
+  //创建ColumnModel一个元素的方法
+  function createObj(objInput){
+    return {header:objInput.nextSibling.nodeValue,dataIndex:objInput.value,sortable:true};
+  }
+  //这里是生成动态ColumnModel的构造数组
+  function createDCm(){
+    var oInput = document.getElementsByName("book");
+    var cm = [];
+    //全选设置
+    if(oInput[0].checked == true)
+    {
+      for(var i=1;i<oInput.length;i++)
+      {
+        oInput[i].checked = true;
+        cm.push(createObj(oInput[i]));
+      }
+      
+      return cm;
+    }
+   //部分选取设置
+   for(var i=1;i<oInput.length;i++)
+   {
+     if(oInput[i].checked == true)
+     {
+       cm.push(createObj(oInput[i]));
+     }
+   }
+   
+   return cm;
+
+  }
+  
+  //根据cm的构造数组生成一个url(根据选择的input来生成一个请求url)
+  function createUrl(cm){
+    var urlafter = "";
+    var url = 'WF_RunRuleWeb?openagent&RuleNum=RUTL01_002';//这里我是使用oa系统的后台
+    
+    for(var i=0;i<cm.length;i++)
+    {
+     urlafter = urlafter+"&"+cm[i].dataIndex;
+    }
+    
+    url = url+urlafter;
+    return url;
+  }
+ 
+ //根据cm构造数组生成json数据解析格式，主要是适应josnReader需要的json数据格式 
+  function createType(cm){
+    var result = [];
+    for(var i=0;i<cm.length;i++)
+    {
+      var temp = { name:cm[i].dataIndex };
+      result.push(temp);
+    }
+    
+    return result;
+  }
+  
+  //为button添加事件
+  addAction(oBtn,function(){
+    document.getElementById("grid").innerHTML = ""
+    var result = createDCm();//cm
+    var url = createUrl(result);
+    var dataType = createType(result);
+    
+    //设置信息读取的store
+     var store = new Ext.data.Store({
+            proxy:new Ext.data.HttpProxy({
+              url:url
+            }),
+       reader:new Ext.data.JsonReader({root:"bookMessage",totalProperty:"totalP"},dataType)
+     });
+    store.load({params:{start:0,limit:10}});
+    
+    
+    /*
+    var store = new Ext.data.Store({
+      proxy:new Ext.data.HttpProxy({url:url}),
+      reader:new Ext.data.JsonReader({root:bookMesage},dataType);
+    });
+    store.load();*/
+    //通过cm构造数组生成cm(ColumnModel)
+    var cm = new Ext.grid.ColumnModel(result);
+   
+   //分页信息设置
+    var gPage = new Ext.PagingToolbar({
+      pageSize:10,
+      totalProperty:'totalP',
+      store:store,
+      displayInfo:true,
+      displayMsg:"显示第{0}条到第{1}条数据,共{2}条数据",
+      emptyMsg:"没有记录"
+    });
+    
+    //绘制表格显示信息
+    var grid = new Ext.grid.GridPanel({
+          title:"标题",
+          cm:cm,
+          store:store,
+          renderTo:'grid',
+          width:800,
+          autoHeight:true,
+         bbar:gPage
+        });  
+    
+  },"click");
+   
+});
+</script>
+	</head>
+	<body>
+		<input type="checkbox" name="book" value="bookId">书籍编号
+		<input type="checkbox" name="book" value="bookname">书籍名称
+		<input type="checkbox" name="book" value="author">作者
+		<input type="checkbox" name="book" value="publishDate">出版日期
+		<input type="checkbox" name="book" value="pubisher">出版社
+		<input type="checkbox" name="book" value="isbn">isbn号
+		<button id="submit">提交</button>
+		<div id="gird"></div>
+	</body>
+</html>
