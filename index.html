@@ -4,7 +4,7 @@ title: 我的Blog(version1.0)
 ---
 
 
-<link rel="stylesheet" type="text/css" href="{{site.baseurl}}css/base.css">
+<link rel="stylesheet" type="text/css" href="css/base.css">
 <link rel="stylesheet" type="text/css" href="css/index_page.css">
 <div class="header">
 	<p class="header_upper">追逐黑夜</p>
@@ -41,6 +41,7 @@ title: 我的Blog(version1.0)
 <div class="footer">
 	Copyrights(C)2014 created by acdliu
 </div>
+<div class="disNone">{{site.baseurl}}</div>
 <script type="text/javascript">
 var testAjax = function(method,url,asyn,data){
 
@@ -74,7 +75,8 @@ var testAjax = function(method,url,asyn,data){
 	}
 }
 
-var url = "http://acdliu.github.io/Blog/css/base.css";
+var url = document.querySelector(".disNone").innerHTML+'css/base.css';
+console.log(url);
 var response = testAjax("get",url,false,null);
 console.log(response);
 </script>
