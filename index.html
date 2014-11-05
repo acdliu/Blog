@@ -48,15 +48,15 @@ var testAjax = function(method,url,asyn,data){
 	var asyn = asyn || false;
 	var data = data || null;
 
-	var request;
+	var request = null;
 	try{
 		request = new XMLHttpRequest();
 	}catch(ie)
 	{
-		request = new ActiveXObject("Microsoft.XMLHttp");
+		request = new ActiveXObject("Microsoft.XMLHTTP");
 	}catch(other)
 	{
-		return false;
+		return request;
 	}
 
 	request.open(method,url,asyn);
@@ -75,7 +75,7 @@ var testAjax = function(method,url,asyn,data){
 	}
 }
 
-var url = document.querySelector(".disNone").innerHTML+'css/base.css';
+var url = document.querySelector(".disNone").innerHTML+'/css/base.css';
 console.log(url);
 var response = testAjax("get",url,false,null);
 console.log(response);
