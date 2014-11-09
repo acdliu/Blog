@@ -41,42 +41,11 @@ title: 我的Blog(version1.0)
 <div class="footer">
 	Copyrights(C)2014 created by acdliu
 </div>
+<!--[if lt IE 9]>
+<script src=”../../css3-mediaqueries.js”></script>
+<![endif]-->
 <div class="disNone">{{site.baseurl}}</div>
 <script type="text/javascript">
-var testAjax = function(method,url,asyn,data){
-
-	var asyn = asyn || false;
-	var data = data || null;
-
-	var request = null;
-	try{
-		request = new XMLHttpRequest();
-	}catch(ie)
-	{
-		request = new ActiveXObject("Microsoft.XMLHTTP");
-	}catch(other)
-	{
-		return request;
-	}
-
-	request.open(method,url,asyn);
-	request.send(data);
-	request.onreadystatechange = function(){
-		if(request.readyState == 4){
-			if(request.status == 200)
-			{
-				return request.responseText;
-			}
-			else
-			{
-				return request.status;
-			}
-		}
-	}
-}
-
 var url = document.querySelector(".disNone").innerHTML+'/css/base.css';
 console.log(url);
-var response = testAjax("get",url,false,null);
-console.log(response);
 </script>
