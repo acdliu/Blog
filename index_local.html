@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<!--为了适应手机端而设立的标签-->
+	<meta name="viewport" content="width=device-width;initial-scale=1.0;user-scalable=0" />
+	<title>{{page.title}}</title>
+</head>
+<body>
+ 	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/index_page.css">
+	<script type="text/javascript">
+	/*
+	*这里加载js和运行js会占用一点时间，我们用以通过给html设置背景色来提高用户体验
+	*
+	*因为在电脑端，我不想他以响应式实现
+	*这里设计一个判断，用来加载手机的css
+	*如果要使手机和电脑使用不同的方式来显示可以考虑这种方法
+	*以下提供两种方法来判断用户终端
+	*/
+	function isPc(){
+
+		var userAgentInfo = navigator.userAgent;
+		var Agents = ["Android","iPhone","SymbianOS","Windows Phone","iPad","iPod"];
+
+		for(var i=0;i<Agents.length;i++)
+		{
+			if(userAgentInfo.indexOf(Agents[i])>0)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/*
+	*这里是第二种检测浏览器的方法
+	*提供详细的检测方式
+	*/
+	function detailCheck(){
+
+		var sUserAgent = navigator.userAgent.toLowerCase();
+		var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+		var bIsIphone = sUserAgent.match(/ipnoe os/i) == "iphone os";
+		var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+		var IsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+		var bIsAndroid = sUserAgent.match(/android/i) == "android";
+		var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+		var bIsWM = sUserAgent.match(/windows mobile/i) = "windows mobile";
+
+		if(!bIsWM &&!bIsCE && !bIsAndroid && !bIsMidp &&!bIsIphone &&!bIsIpad)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	var uaCheck = isPc();
+
+	if(uaCheck == false)
+	{
+	 	var oLink = document.createElement("link");
+	 	oLink.rel="stylesheet";
+	 	oLink.type="type/css";
+	 	oLink.href="css/index_webapp_page.css";
+	 	document.body.appendChild(oLink);
+
+	}
+
+	console.log(uaCheck);
+	</script>
+<div class="header">
+	<p class="header_upper">追逐黑夜</p>
+	<p class="header_down">黑夜给了我黑色的眼睛，我用他去探索黑夜</p>
+</div>
+
+<div class="content">
+	<div class="aside">
+		<div class="recommend">
+			<dl>
+				<dt>文章推荐</dt>
+				<dd><a href="">大漠</a></dd>
+			</dl>
+		</div>
+		<div class="favor">
+			<dl>
+				<dt>网站推荐</dt>
+				<dd><a href="">bilibili</a></dd>
+			</dl>
+		</div>
+	</div>
+	<div class="main">
+		<ul>
+			{% for post in site.posts %}
+			<li>
+				<a href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+
+</div>
+
+<div class="footer">
+	Copyrights(C)2014 created by acdliu
+</div>
+<!--[if lt IE 9]>
+<script src=”../../css3-mediaqueries.js”></script>
+<![endif]-->
+<div class="disNone">{{site.baseurl}}</div>
+<script type="text/javascript">
+var domains = 'http://acdliu.github.io/Blog/';
+var url = domains+'css/base.css';
+console.log(url);
+
+var ajaxT = function(method,url){
+
+	var request;
+	try{
+		request = new XMLHttpRequest();
+	}catch(ie)
+	{
+		request = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	request.open(method,url,false);
+	request.send(null);
+	request.onreadystatechange = function(){
+
+		if(request.readyState == 4){
+			if(request.status == 200){
+				return request.responseText;
+			}
+			else
+			{
+				return "失败代码："+request.status;
+			}
+		}
+	}
+
+};
+console.log("here");
+</script>
+</body>
+</html>
