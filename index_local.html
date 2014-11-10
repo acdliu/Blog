@@ -27,11 +27,11 @@
 		{
 			if(userAgentInfo.indexOf(Agents[i])>0)
 			{
-				return false;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/*
@@ -143,6 +143,7 @@ var ajaxT = function(method,url){
 	}
 
 };
+console.log(ajaxT("GET",url));
 console.log("here");
 </script>
 </body>
