@@ -76,7 +76,7 @@ console.log(uaCheck);
 <div id="uaShow" class="uaShow">测试ua</div>
 <script type="text/javascript">
 	var oDiv = document.getElementById("uaShow");
-	oDiv.textContent = navigator.userAgent.toString();
+	oDiv.textContent =isPc().toString();
 </script>
 <div class="content">
 	<div class="aside">
@@ -111,7 +111,6 @@ console.log(uaCheck);
 <!--[if lt IE 9]>
 <script src=”../../css3-mediaqueries.js”></script>
 <![endif]-->
-<div class="disNone">{{site.baseurl}}</div>
 <script type="text/javascript">
 var domains = 'http://acdliu.github.io/Blog/';
 var url = domains+'css/base.css';
