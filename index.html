@@ -68,17 +68,16 @@ if(uaCheck == false)
 }
 
 console.log(uaCheck);
-window.onload = function(){
-
-	var oDiv = document.getElementById("uaShow");
-	oDiv.innerHTML = navigator.userAgent.toString();
-}
 </script>
 <div class="header">
 	<p class="header_upper">追逐黑夜</p>
 	<p class="header_down">黑夜给了我黑色的眼睛，我用他去探索黑夜</p>
 </div>
 <div id="uaShow" class="uaShow">测试ua</div>
+<script type="text/javascript">
+	var oDiv = document.getElementById("uaShow");
+	oDiv.textContent = navigator.userAgent.toString();
+</script>
 <div class="content">
 	<div class="aside">
 		<div class="recommend">

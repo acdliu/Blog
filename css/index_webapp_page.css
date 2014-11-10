@@ -7,4 +7,24 @@
 	.header:before{ content: "头像"; position: absolute; left: 3rem; top: 50%; margin-top: -2rem; width: 4rem;  height: 4rem; border-radius: 2rem; background: #444; border:0.1rem solid rgba(255,255,255,50);}
 	.main{ width: 100%; }
 	.main li{ width: auto; margin: 1rem; min-height: 5rem; line-height: 5rem; font-size: 150%; }
-}    
+}
+
+@media screen and(-webkit-device-pixel-ratio:0.75){
+	/*css for lowest-density screens 对应ppi：小于120*/
+	.header{ background: #444;}
+}
+
+@media screen and(-webkit-device-pixel-ratio:1.0){
+	/* css for high-density screens 对应ppi:160-240*/
+	.header{ background: green;}
+}
+
+@media screen and(-webkit-device-pixel-ratio:1.5){
+	/* css for high-density screens 对应ppi:240-320*/
+	.header{ background: blue;}
+}
+
+@media screen and(-webkit-device-pixel-ratio:2.0){
+	/* css for high-density screens 对应ppi:大于320*/
+	.header{ background: yellow;}
+}       

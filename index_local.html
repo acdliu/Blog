@@ -72,17 +72,17 @@
 	}
 
 	console.log(uaCheck);
-window.onload = function(){
 
-	var oDiv = document.getElementById("uaShow");
-	oDiv.innerHTML = navigator.userAgent.toString();
-}
 	</script>
 <div class="header">
 	<p class="header_upper">追逐黑夜</p>
 	<p class="header_down">黑夜给了我黑色的眼睛，我用他去探索黑夜</p>
 </div>
 <div id="uaShow"></div>
+<script type="text/javascript">
+	var oDiv = document.getElementById("uaShow");
+	oDiv.innerHTML = navigator.userAgent.toString();
+</script>
 <div class="content">
 	<div class="aside">
 		<div class="recommend">
@@ -116,7 +116,6 @@ window.onload = function(){
 <!--[if lt IE 9]>
 <script src=”../../css3-mediaqueries.js”></script>
 <![endif]-->
-<div class="disNone">{{site.baseurl}}</div>
 <script type="text/javascript">
 var domains = 'http://acdliu.github.io/Blog/';
 var url = domains+'css/base.css';
