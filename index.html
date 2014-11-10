@@ -68,12 +68,17 @@ if(uaCheck == false)
 }
 
 console.log(uaCheck);
+window.onload = function(){
+
+	var oDiv = document.querySelector(".uaShow");
+	oDiv.innerHTML = isPc();
+}
 </script>
 <div class="header">
 	<p class="header_upper">追逐黑夜</p>
 	<p class="header_down">黑夜给了我黑色的眼睛，我用他去探索黑夜</p>
 </div>
-
+<div class="uaShow"></div>
 <div class="content">
 	<div class="aside">
 		<div class="recommend">
