@@ -60,6 +60,7 @@ var uaCheck = isPc();
 
 if(uaCheck == false)
 {
+	/*加载手机端样式表*/
  	var oLink = document.createElement("link");
 	 	//oLink.rel="stylesheet";
 	 	oLink.setAttribute("rel","stylesheet");
@@ -68,6 +69,19 @@ if(uaCheck == false)
 	 	//oLink.href="css/index_webapp_page.css";
 	 	oLink.setAttribute("href","css/index_webapp_page.css");
 	 	document.getElementsByTagName("head")[0].appendChild(oLink);
+}
+
+if(uaCheck == true){
+
+	/*加载pc端样式表*/
+	var oLink = document.createElement("link");
+	 //oLink.rel="stylesheet";
+	 oLink.setAttribute("rel","stylesheet");
+	 //oLink.type="type/css";
+	 oLink.setAttribute("type","type/css");
+	 //oLink.href="css/index_webapp_page.css";
+	 oLink.setAttribute("href","css/index_webapp_page.css");
+	 document.getElementsByTagName("head")[0].appendChild(oLink);
 }
 
 console.log(uaCheck);
