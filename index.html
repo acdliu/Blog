@@ -61,10 +61,13 @@ var uaCheck = isPc();
 if(uaCheck == false)
 {
  	var oLink = document.createElement("link");
- 	oLink.rel="stylesheet";
- 	oLink.type="type/css";
- 	oLink.href="css/index_webapp_page.css";
- 	document.body.appendChild(oLink);
+	 	//oLink.rel="stylesheet";
+	 	oLink.setAttribute("rel","stylesheet");
+	 	//oLink.type="type/css";
+	 	oLink.setAttribute("type","type/css");
+	 	//oLink.href="css/index_webapp_page.css";
+	 	oLink.setAttribute("href","css/index_webapp_page.css");
+	 	document.getElementsByTagName("head")[0].appendChild(oLink);
 }
 
 console.log(uaCheck);
