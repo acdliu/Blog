@@ -1,0 +1,4 @@
+start : 2014.11.11
+end   :
+work  : 把浏览器样式和手机样式分开加载，弄一个延迟加载css
+        1、测试发现手机浏览器中div.innerHTML 添加不了内容，要使用div.textContent
