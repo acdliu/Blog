@@ -1,3 +1,7 @@
-body,div,p,ul,li,dl,dt,dd{margin:0;padding: 0;}
+body,div,p,ul,li,dl,dt,dd,h3{margin:0;padding: 0;}
 ul{list-style: none;}
-a{text-decoration: none;}
+a{text-decoration: none; color: black;}
+a:link{ color: black;}
+a:visited{ color: black;}
+a:active{ color: black;}
+a:hover{ color: black;}

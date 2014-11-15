@@ -4,127 +4,114 @@ title: 我的Blog(version1.0)
 ---
 
 
-<link rel="stylesheet" type="text/css" href="css/base.css">
-<link rel="stylesheet" type="text/css" href="css/index_page.css">
-<script type="text/javascript">
-/*
-*这里加载js和运行js会占用一点时间，我们用以通过给html设置背景色来提高用户体验
-*
-*因为在电脑端，我不想他以响应式实现
-*这里设计一个判断，用来加载手机的css
-*如果要使手机和电脑使用不同的方式来显示可以考虑这种方法
-*以下提供两种方法来判断用户终端
-*/
-	function isPc(){
+ 	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/index_page.css">
+	<script type="text/javascript" src="js/tools.js"></script>
+	<script type="text/javascript">
+	/*
+	*这里是第二种检测浏览器的方法
+	*提供详细的检测方式
+	*/
+	function detailCheck(){
 
-		var userAgentInfo = navigator.userAgent;
-		var Agents = ["Android","iPhone","SymbianOS","Windows Phone","iPad","iPod"];
+		var sUserAgent = navigator.userAgent.toLowerCase();
+		var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+		var bIsIphone = sUserAgent.match(/ipnoe os/i) == "iphone os";
+		var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+		var IsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+		var bIsAndroid = sUserAgent.match(/android/i) == "android";
+		var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+		var bIsWM = sUserAgent.match(/windows mobile/i) = "windows mobile";
 
-		for(var i=0;i<Agents.length;i++)
+		if(!bIsWM &&!bIsCE && !bIsAndroid && !bIsMidp &&!bIsIphone &&!bIsIpad)
 		{
-			if(userAgentInfo.indexOf(Agents[i])>0)
-			{
-				return false;
-			}
+			return true;
 		}
-
-		return true;
+		else
+		{
+			return false;
+		}
 	}
 
-/*
-*这里是第二种检测浏览器的方法
-*提供详细的检测方式
-*/
-function detailCheck(){
+	var uaCheck = isPc();
+	var obj = {};
+	obj.rel = "stylesheet";
+	obj.href = "css/index_webapp_page.css"
+	obj.type = "type/css";
 
-	var sUserAgent = navigator.userAgent.toLowerCase();
-	var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-	var bIsIphone = sUserAgent.match(/ipnoe os/i) == "iphone os";
-	var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-	var IsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-	var bIsAndroid = sUserAgent.match(/android/i) == "android";
-	var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-	var bIsWM = sUserAgent.match(/windows mobile/i) = "windows mobile";
-
-	if(!bIsWM &&!bIsCE && !bIsAndroid && !bIsMidp &&!bIsIphone &&!bIsIpad)
+	if(uaCheck == false)
 	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-var uaCheck = isPc();
-
-if(uaCheck == false)
-{
-	/*加载手机端样式表*/
- 	var oLink = document.createElement("link");
-	 	//oLink.rel="stylesheet";
+	 	/*var oLink = document.createElement("link");
+	 	//oLink.rel="stylesheet";在Blog项目中，这种方法不起作用
 	 	oLink.setAttribute("rel","stylesheet");
 	 	//oLink.type="type/css";
 	 	oLink.setAttribute("type","type/css");
 	 	//oLink.href="css/index_webapp_page.css";
 	 	oLink.setAttribute("href","css/index_webapp_page.css");
-	 	document.getElementsByTagName("head")[0].appendChild(oLink);
-}
+	 	document.getElementsByTagName("head")[0].appendChild(oLink);*/
+	 	//lazyLink(obj);
 
-if(uaCheck == true){
+	}
 
-	/*加载pc端样式表*/
-	var oLink = document.createElement("link");
-	 //oLink.rel="stylesheet";
-	 oLink.setAttribute("rel","stylesheet");
-	 //oLink.type="type/css";
-	 oLink.setAttribute("type","type/css");
-	 //oLink.href="css/index_webapp_page.css";
-	 oLink.setAttribute("href","css/index_webapp_page.css");
-	 document.getElementsByTagName("head")[0].appendChild(oLink);
-}
+	console.log(uaCheck);
 
-console.log(uaCheck);
-</script>
-<div class="header">
-	<p class="header_upper">追逐黑夜</p>
-	<p class="header_down">黑夜给了我黑色的眼睛，我用他去探索黑夜</p>
-</div>
-<div id="uaShow" class="uaShow">测试ua</div>
-<script type="text/javascript">
-	var oDiv = document.getElementById("uaShow");
-	oDiv.textContent =isPc().toString();
-</script>
-<div class="content">
-	<div class="aside">
-		<div class="recommend">
-			<dl>
-				<dt>文章推荐</dt>
-				<dd><a href="">大漠</a></dd>
-			</dl>
-		</div>
-		<div class="favor">
-			<dl>
-				<dt>网站推荐</dt>
-				<dd><a href="">bilibili</a></dd>
-			</dl>
-		</div>
-	</div>
-	<div class="main">
+	window.onload = function(){
+
+		console.log(uaCheck);
+		if(uaCheck == true)
+		{
+			var aUlList = document.getElementsByTagName("li");
+			for(var i=0;i<aUlList.length;i++)
+			{
+				console.log(aUlList[i].className.toString());
+				if(aUlList[i].className.indexOf("userAgent") >= 0)
+				{
+					aUlList[i].textContent = "您好，你现在使用的是pc端浏览器。";
+					return;
+				}
+			}
+		}
+	}
+	</script>
+
+	<!--尝试采用新标签替代旧标签-->
+	<header>
 		<ul>
-			{% for post in site.posts %}
-			<li>
-				<a href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a>
-			</li>
-			{% endfor %}
+			<li class="mingyan">黑夜</li>
+			<li class="blogSite"><a href="http://acdliu.github.com/Blog">http://acdliu.github.com/Blog</a></li>
+			<li class="userAgent"></li>
 		</ul>
+	</header>
+
+	<div class="content">
+		<aside>
+			<div class="upMessage blockQ">
+				<h3>个人资料</h3>
+				<ul>
+					<li class="up_pic"><img src=""></li>
+					<li class="up_name">acdliu</li>
+				</ul>
+			</div>
+
+			<div class="moonRecord blockQ">
+				<h3>心情日记</h3>
+				<p>今天心情状态没有更新</p>
+			</div>
+		</aside>
+
+		<div class="main blockQ">
+			<h3>读书笔记</h3>
+				{% for post in site.posts %}
+				<div class="pageContent">
+					<a href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a>
+				</div>
+				{% endfor %}
+		</div>
 	</div>
 
-</div>
+	<footer>Copyrights(C)2014 created by acdliu</footer>
 
-<div class="footer">
-	Copyrights(C)2014 created by acdliu
-</div>
+
 <!--[if lt IE 9]>
 <script src=”../../css3-mediaqueries.js”></script>
 <![endif]-->
@@ -159,5 +146,8 @@ var ajaxT = function(method,url){
 	}
 
 };
+
+var result = ajaxT("get",url);
+console.log(result);
 console.log("here");
 </script>

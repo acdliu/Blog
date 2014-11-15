@@ -1,22 +1,58 @@
 /*
-*stylesheets for header
-*
-*/
-.header,.content,.footer{min-width: 400px;}
+.header,.content,.footer{width:100%;}
 
 .header{ position: relative; width: 100%; height: 210px; background: url(../pic/8.jpg); background-position: -50px -280px;}
 .header .header_upper{position: absolute; left: 530px; font-size: 30px; color: #fff;}
 .header .header_down{position: absolute; left: 300px; top: 70px; color: #fff; font-size: 16px;}
-/*
-*stylesheets for content
-*/	
+
 .content{}
 .main{ border-right: 1px solid black;  min-width: 200px;}
 .main ul{width: 100%;}
 .main li{width: 400px; margin: 10px auto; border: 1px solid black; border-radius: 5px; box-shadow: 3px 5px 5px; font-size: 16px; line-height: 35px; text-align: center;}
 .main li a{ display: block;}
 .aside{float: right; display: none; width: 25%; }
+
+.footer{clear: both; text-align: center; height: 50px; line-height: 50px; background: #444;}*/
+
+html{font-size: 100%; font-family:Arial Helvetica Tahoma Verdana;}
+header,.content,footer{ min-width: 800px; max-width: 1200px; margin: 0px auto;}
+
+header{ background: url(../pic/8.jpg); height: 10rem; margin-top:20px; }
+header ul{ position:relative;  left: 15rem; top:3rem; }
+header li{ margin-top: 0.3rem; color: #fff;}
+header .mingyan{ font-size: 2rem; color: #fff;}
+header .blogSite a{color: #fff;}
+
 /*
-*stylesheets for footer
+*moudle:该部分只存在于content内部，只分header和body两个部分
+*
 */
-.footer{clear: both; text-align: center; height: 50px; line-height: 50px; background: #444;}
+.content h3{ background: #cecece; font-size: 1rem; }
+.content .blockQ{ background: #fff; border: 1px solid #ccc;}
+
+/*
+*这里是content部分布局和划分
+*/
+.content{ margin-top: 10px;}
+.content aside{float: left; width: 200px;}
+/*
+*upMessage板块
+*/
+.upMessage li{text-align: center;}
+.up_pic{ border: 1px solid #ccc; width: 170px; height: 170px; margin: 10px auto; }
+.up_name{ margin: 5px;}
+.up_life{ margin: 5px;}
+/*
+*moonRecord板块
+*/
+.moonRecord{ margin-top: 10px; min-height: 50px;}
+/*
+*主板块
+*/
+.main{ margin-left: 210px;}
+.pageContent{ margin: 20px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #eee; border-bottom: 1px dotted #eee;}
+
+/*
+*footer板块
+*/
+footer{ clear: both; text-align: center; height: 50px; line-height: 50px;}
