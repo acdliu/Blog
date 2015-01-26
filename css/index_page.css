@@ -15,26 +15,28 @@
 .footer{clear: both; text-align: center; height: 50px; line-height: 50px; background: #444;}*/
 
 html{font-size: 100%; font-family:Arial Helvetica Tahoma Verdana;}
-header,.content,footer{ min-width: 800px; max-width: 1200px; margin: 0px auto;}
+.header,.content,.footer{ min-width: 80%; max-width: 1200px; margin: 0px auto;}
 
-header{ background: url(../pic/8.jpg); height: 10rem; margin-top:20px; }
-header ul{ position:relative;  left: 15rem; top:3rem; }
-header li{ margin-top: 0.3rem; color: #fff;}
-header .mingyan{ font-size: 2rem; color: #fff;}
-header .blogSite a{color: #fff;}
+.header{ background: url(../pic/8.jpg); height: 160px; height: 10rem;/*因为在手机端或在电脑端使用百分比的height都会被浏览器忽略这个值,所这里还是尼玛的*/height: 160px; margin-top:20px; }
+.header ul{ position:absolute;  left: 15rem; left: 240px; top:3rem; top:48px; right: 0px; }
+.header li{ margin-top: 0.3rem; margin-top: 5px; color: #fff; margin-right: 0px;}
+.header .mingyan{ font-size: 2rem; font-size: 32px; color: #fff;}
+.header .blogSite a{color: #fff;}
+.header .personalPic{display: none;}
+.header .personLove{display: none;}
 
 /*
 *moudle:该部分只存在于content内部，只分header和body两个部分
 *
 */
-.content h3{ background: #cecece; font-size: 1rem; }
+.content h3{ background: #cecece; font-size: 1rem; font-size: 16px; }
 .content .blockQ{ background: #fff; border: 1px solid #ccc;}
 
 /*
 *这里是content部分布局和划分
 */
 .content{ margin-top: 10px;}
-.content aside{float: left; width: 200px;}
+.content .aside{float: left; width: 200px;}
 /*
 *upMessage板块
 */
@@ -55,4 +57,16 @@ header .blogSite a{color: #fff;}
 /*
 *footer板块
 */
-footer{ clear: both; text-align: center; height: 50px; line-height: 50px;}
+.footer{ clear: both; text-align: center; height: 50px; line-height: 50px;}
+
+@media only screen and (max-width: 800px){
+.header,.content,.footer{ width: 100%;}
+}
+
+@media only screen and (max-width:750px){
+.header{margin-top: 0px; padding: 1px; position:relative;/*这里的1px是为了让ul设置margin时不要将父元素撑开*/}
+.header ul{left: 5rem;}
+.header .personalPic{display: block; position: absolute; top:2.5rem; width: 5rem; height: 5rem; border-radius: 2.5rem; border: 0.2rem solid #fff; background: #444; }
+.content .aside{float: none; display: none;}
+.main{margin-left: 0px;}
+}
