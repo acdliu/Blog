@@ -4,7 +4,7 @@
 1、在[nodejs官网](http://nodejs.org/)上点击install按钮即可下载nodejs安装文件。
 
 <style type="text/css">
-	img{ width: 80%; height: auto;}
+	img{ width: 500px; height: auto;}
 </style>
 ![revolunet logo](./picForDes/nodejs_download.png)
 
