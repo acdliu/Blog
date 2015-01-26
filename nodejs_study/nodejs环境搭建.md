@@ -3,6 +3,9 @@
 ###一、nodejs安装
 1、在[nodejs官网](http://nodejs.org/)上点击install按钮即可下载nodejs安装文件。
 
+<style type="text/css">
+	img{ width: 80%; height: auto;}
+</style>
 ![revolunet logo](./picForDes/nodejs_download.png)
 
 2、运行安装文件，配置安装路径，其他配置项按默认配置，直接下一步到完成。
