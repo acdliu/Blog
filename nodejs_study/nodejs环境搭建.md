@@ -6,6 +6,7 @@
 ![revolunet logo](./picForDes/nodejs_download.png)
 
 2、运行安装文件，配置安装路径，其他配置项按默认配置，直接下一步到完成。
+
 3、运行下面命令查看nodejs的版本信息，如果成功显示表示安装成功，如果提示node不是内部命令时请重新安装。
 
 	node -v
