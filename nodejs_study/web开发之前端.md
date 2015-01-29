@@ -1,96 +1,99 @@
 #WEB开发之前端数据提交
 
->浏览器和服务器之间的通信是基于http协议的，所以浏览器可以通过http的请求方式来向服务器请求资源和服务，其中最常
->用的请求方式是get请求和post请求，本文将介绍前端代码向服务器提交请求。
+>浏览器前端数据与后台数据是如何进行交互的呢？web前端技术提供了几种方法:1、form表单，2、ajax，3、websocket，4、跨文档消息传输。本文重点介绍前两种方法，其他方法的详细处理将在以后补充完整。
+>
 
-###get方法
-使用get方法时，请求的内容会以明文形式附加在url地址后面一起发送到服务器。get请求具有以下特点：
-- get请求能够被浏览器缓存，能保存在浏览器的历史记录中。
-- get请求在http协议中并没有限制，但在浏览器中的实现不同，而在ie实现中长度最小，所以一般以ie的限制2kb为get请求的长度限制。
-- get请求实际上只有一个头文件，所以效率上会比post高。
-- get请求的安全性差，附加在url上的内容可以被别人知悉，所以一般用来请求数据，而不用与私密数据的提交。
+###http请求介绍
+浏览器和服务器之间是采用http协议进行通信的，所以在了解前端数据提交前我们要先了解http请求方式。http协议中提供了很多中请求方式，例如：head、get、post、put、options、delete等，其中最常用的是get和post请求方式，现在说http请求方式基本上都是指这两种方式。以下介绍一下这两种方式
+1)、get请求的使用方式是将请求信息附加在URL上，这种请求方式有以下特点
 
-###post方法
-使用post方法时，请求数据会被附加到http请求体中发送到服务器。post请求具有以下特点：
-- post请求不能被浏览器缓存，也不能保存在历史记录中。
-- post请求在http协议中大小也没有限制，但通常在服务器端有post最大值限制，具体多大要看服务器配置。
-- post请求内容是附加在http协议请求体中，多数浏览器对于post请求采用两阶段发送数据，先发送请求头，再发送请求体，所以效率方面比get请求低。
-- post请求是不可见的，安全性比get请求高一点
+- get请求会在浏览器地址栏中显示，能够被浏览器缓存，并且可以保存在浏览器的历史记录中
+- http协议中对get请求的长度并没有限制，但多数(或者说全部浏览器)对get的请求做了长度限制，其中ie的最短为2kb，为了考虑兼容方面问题，开发上将get限制为2kb的长度。
+- 多数浏览器在发送form表单请求报文时，有这样的一个行为：先发送http报文的header部分，然后再发送http报文的body部分，get请求的数据是在header部分发送的，所以效率比较高
+- get请求的数据是明文附加在URL上的(也有通过escape函数进行编码的，unescape就可以解码了，跟明文没什么差别)，所以安全性差
+- get请求通常用于幂等请求(请求任何次返回同样的结果)和向服务器拉取数据
 
-###通过form表单提交请求
-向服务器提交http请求的最简单的方式是通过html的表单元素来提交，表单元素的基本结构如下面所示:
+get的方法很常见，就比如说我用百度来搜索"寄生兽next to you",就是一个get请求，地址栏URL?号后面的内容就是请求内容。
 
-	<form id="form" method="get" action="http://localhost/index.html">
-		<fieldset>
-		<legend></legend>
-        <p>
-            <label for="username">用户名：</label>
-            <input type="text" id="username" name="username" >
-        </p>
-        <p>
-            <label for="username">用户名：</label>
-            <input type="text" id="username" name="username" >
-        </p>
-        <button>submit</button>
-        </fieldset>
-    </form>
+	http://www.baidu.com/s?wd=%E5%AF%84%E7%94%9F%E5%85%BDnext%20to%20you&rsv_spt=1&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_pq=8948c55e000158a8&rsv_t=0a95hrC%2B5SCTCUkyGtPonxVH8q2FwvnW9tsgO7EJgjnS%2FNRNCmJUpxFTKF4QeZnD%2F5CC&inputT=7805&rsv_sug3=308&rsv_sug6=6&rsv_sug1=160&rsv_sug2=0&rsv_sug4=9096
 
-form表单的重要元素和属性介绍
-- 1、form元素是form表单的基本，它有两个属性要注意：method和action。method属性是指明表单通过get/post方法提交到服务器，该属性的默认值是get。action是指明表单提交到服务器的那个处理逻辑，如果不填这个数据就提交不到服务器。
-- 2、input元素的name属性，该值指定浏览器要提交的数据以及在服务器通过什么变量来访问浏览器提交的数据。
-- 3、button元素，表单的提交必须通过一个按钮来触发提交操作。
+2)、post请求的内容是编码后附加到http报文的body部分，这种请求的方式的特性是：
 
-###通过ajax提交请求
-通过form表单提交/请求数据必须刷新页面才能看到新的内容，但是有一种技术它可以通过浏览器后台与服务器进行数据交互而不刷新页面或阻塞用户操作，它叫ajax。如果不想网页请求数据时阻塞用户操作而导致恶劣的用户体验，可以使用这种方式来提交/请求数据。
+- post请求的信息不会显示在地址栏上，不能被浏览器缓存，也不能保存在历史记录中
+- http协议对post请求也没有大小限制，浏览器通常也不限制post请求的大小，但服务器通常对post请求有限制，php中是3-8M。
+- 由于post请求方式的数据是附加在http报文的body部分，根据form表单发送http请求的特性，它的效率会比ge请求低
+- post请求方式的数据是附加在http报文的body部分，安全性方面比get请求好，但也是相对而已，如果要好的安全性要采用https协议
+- post请求方式通常用户向服务器传递大数据和私密信息
 
-	<script>
-     	//创建表单对象，这里可以传递一个DOM对象来初始化表单数据对象。
-     	var oForm = new FormData();
-     	//添加一个username数据
-     	oForm.username="username";
-     	/*添加一个password数据*/
-     	oForm.password="password";
-     	//通过ajax来提交表单
-		function ajax(method,url,data,callback){
 
-                var req = null;
-                try{
-                     req = new XMLHttpRequest();
-                }catch(){
-                     req = new ActiveXObject("Microsoft.XMLHTTP");
-                }
+###form表单
+介绍完http请求，我们来写一个form表单向服务器提交用户名和密码。
+1、form标签是form表单的最基本元素。form标签有两个重要属性：method和action，method属性是指明表单将采取get/post方式提交到服务器，如果不填写该值，表单将以get方式提交数据；action属性是指明表单提交到服务器中的哪个处理逻辑，如果不填该值，表单将无法提交。html中表单的写法如下所示：
+	
+	<form method="get" action="http://localhost/index.php"></form>
 
-                req.onreadystatechange = function(){
+2、form表单建好了，但打开网页看是一片空白，也无法向服务器提交数据。现在我们想表单里面添加两个输入框和一个按钮，输入框要注意一个name属性，该属性是表单提交数据的标识，也是服务器接收数据的标识。添加完成后代码如下所示：
 
-                    if(req.readyState == 4)
-                    {
-                        if(req.status == 200)
-                        {
-                            console.log("success");
-                        }
-                        else
-                        {
-                            console.log("error");
-                        }
-                    }
-                }
-                req.open(method,url,false);
-                req.send(data);
+	<form method="get" action="http://localhost/index.php">
+		<p><label>用户名：</label><input type="text" name="username"></p>
+		<p><label>密码：</label><input type="password" name="password"></p>
+		<p><button>submit</button></p>
+	</form>
 
-        }
+3、好了，到这里表单就基本完成了，下面是一个登录界面的完整代码：
 
-		ajax("post","http://localhost/index",oForm);
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8" >
+			<title>提交登录数据</title>
+		</head>
+		<body>
+			<form method="get" action="http://localhost/index.php">
+				<fieldset>
+					<legend>用户登录</legend>
+					<p><label>用户名：</label><input type="text" name="username"></p>
+					<p><label>密码：</label><input type="password" name="password"></p>
+					<p><button>submit</button></p>
+				</fieldset>
+			</form>
+		</body>
+	</html>
+
+4、表单弄好了，我们来写PHP服务器index.php代码：
+
+	<?php
+		//将浏览器传递过来的数据取出
+		$username = $_REQUEST["username"];
+		$password = $_REQUEST["password"];
+		//输出这两个数据看是否正确
+		echo "hello ${username} , you password is ${password}!";
+	?>
+
+
+###ajax
+form表单提交数据需要跳转页面或会阻塞页面的其他操作，为了提供更好的交互，我们可以ajax来提交表单，下面演示一段通过jquery封装的ajax代码来提交数据。代码如下：
+	
+	<div class="clickBtn">click show message</div>
+	<script type="text/javascript" src="javascripts/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript">
+	$.ajax({
+		url:"http://localhost/index.php?username=acdliu&password=hey",
+		type:"get",
+		data:"null",
+		timeout:2000,
+		success:function(data){
+			$(".clickBtn").html(data);
+			},
+		error:function(){
+			alert('something is error!');
+		}
+		});
 	</script>
 
 
-###通过jquery提交请求
-ajax在ie和其他浏览器中有兼容性问题，并且像上面写的代码无法解决请求超时的情况，我们可以使用jquery提供的ajax、get、post函数来提交数据，只要配置相应的信息即可。
 
-	$.ajax({
-		url:"http://localhost/index",//请求处理路径
-		type:'get',//请求方式
-		data:null,//请求数据，get方式为null，post方式附加数据
-		timeout:3000,//设置请求超时时间
-		success:function(){console.log("success")},//请求成功的处理函数
-		error:function(){console.log("error")}//请求失败的处理函数
-		});
+
+###本文结语
+写本文时，表达、用户和说明方式都有很大的问题，主要注重方面是实践，理论方面解释的不够清晰，以后会对本文进行改进。
+本文参考：http://blog.chinaunix.net/uid-21778123-id-1815443.html
