@@ -8,7 +8,7 @@
 - bin 这个目录里有一个www文件，这个是这个项目的启动程序，在此目录下node www可以开启node服务器
 - node_modules 这个目录是存放通过npm安装的依赖包文件
 - public 这个目录是用来存放图片、javascript和css以及一些其他共享文件的目录
-- routes 这个目录存放controller层的代码
+- routes 这个目录存放controller层的代码，可以进行访问控制
 - views 这个目录存放模板引擎和前端页面
 - app.js 这个是express框架的nodejs服务器编程入口文件
 - package.json 这个json文件是用来配置项目信息的
@@ -99,7 +99,7 @@
 
 - 接下来我们要配置ejs模板引擎来解析html文件，在设置模板引擎代码下加入下面一行代码
 
-	app.engine('.html',ejs_express);
+	app.engine('.html',ejs.__express);
 
 - 最后将设置模板文件类型代码改成以下内容：
 	
@@ -132,7 +132,7 @@ nodejs的路由模块有拦截，转发和处理请求功能，它提供了三�
 		next();
 	});
 
-运行下面项目，在浏览器输入http://localhost:3000/login，可以看到弹出404或500页面。我们看下黑屏里面的内容，可以看出代app.all先拦截到请求，处理完成后使用next()向后传递请求数据，然后app.use拦截到请求，处理完成后使用next()继续向后传递请求，最后才被app.get请求拦截。可以看出请求不是直接被app.get拦截到，而是由上往下的捕获的。另外，不使用next函数，数据传递到app.all就。所以我们可以利用这个特性来做过滤器，本文暂时还用不到这个内容，该功能将于下次说明。
+运行下面项目，在浏览器输入http://localhost:3000/login，可以看到弹出404或500页面。我们看下黑屏里面的内容，可以看出代app.all先拦截到请求，处理完成后使用next()向后传递请求数据，然后app.use拦截到请求，处理完成后使用next()继续向后传递请求，最后才被app.get请求拦截。可以看出请求不是直接被app.get拦截到，而是由上往下的捕获的。另外，不使用next函数，数据传递到app.all就停止往下传递了。所以我们可以利用这个特性来做过滤器，本文暂时还用不到这个内容，该功能将于下次说明。
 
 现在我们设计一个返回用户提交过来的登录信息的功能的需求
 访问路径：/login,页面：login.html
@@ -153,7 +153,7 @@ nodejs的路由模块有拦截，转发和处理请求功能，它提供了三�
     	return res.render('index',{username:usernameB,password:passwordB});
 	});
 
-下面将前端代码放到views目录下：
+下面将前端页面放到views目录下：
 	
 	index.html页面代码
 	<!DOCTYPE html>
@@ -186,5 +186,5 @@ nodejs的路由模块有拦截，转发和处理请求功能，它提供了三�
 		</body>
 	</html>
 
-运行项目，在浏览器输入login页面地址并输入信息，点击submit就可以看到自己提交过去的数据。
+运行项目，在ie浏览器输入http://localhost:3000/login页面地址并输入信息，点击submit就可以看到自己提交过去的数据。
 

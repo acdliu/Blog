@@ -1,10 +1,11 @@
 #WEB开发之前端数据提交
 
 >浏览器前端数据与后台数据是如何进行交互的呢？web前端技术提供了几种方法:1、form表单，2、ajax，3、websocket，4、跨文档消息传输。本文重点介绍前两种方法，其他方法的详细处理将在以后补充完整。
->
+>在使用本文代码时，请先安装wamp或lamp集成环境。
 
 ###http请求介绍
 浏览器和服务器之间是采用http协议进行通信的，所以在了解前端数据提交前我们要先了解http请求方式。http协议中提供了很多中请求方式，例如：head、get、post、put、options、delete等，其中最常用的是get和post请求方式，现在说http请求方式基本上都是指这两种方式。以下介绍一下这两种方式
+
 1)、get请求的使用方式是将请求信息附加在URL上，这种请求方式有以下特点
 
 - get请求会在浏览器地址栏中显示，能够被浏览器缓存，并且可以保存在浏览器的历史记录中
@@ -27,7 +28,8 @@ get的方法很常见，就比如说我用百度来搜索"寄生兽next to you",
 
 
 ###form表单
-介绍完http请求，我们来写一个form表单向服务器提交用户名和密码。
+以下以一个提交登录信息为例，介绍一个表单的基本信息：
+
 1、form标签是form表单的最基本元素。form标签有两个重要属性：method和action，method属性是指明表单将采取get/post方式提交到服务器，如果不填写该值，表单将以get方式提交数据；action属性是指明表单提交到服务器中的哪个处理逻辑，如果不填该值，表单将无法提交。html中表单的写法如下所示：
 	
 	<form method="get" action="http://localhost/index.php"></form>
@@ -42,6 +44,7 @@ get的方法很常见，就比如说我用百度来搜索"寄生兽next to you",
 
 3、好了，到这里表单就基本完成了，下面是一个登录界面的完整代码：
 
+	文件名：login.html
 	<!DOCTYPE html>
 	<html>
 		<head>
@@ -60,8 +63,9 @@ get的方法很常见，就比如说我用百度来搜索"寄生兽next to you",
 		</body>
 	</html>
 
-4、表单弄好了，我们来写PHP服务器index.php代码：
-
+4、表单弄好了，将上面表单的完整代码放到wamp的www directory(wamp右键可以快速打开)下，接下来写一个PHP服务器index.php代码：
+	
+	文件名：index.php(注意将原来的index.php替换掉)
 	<?php
 		//将浏览器传递过来的数据取出
 		$username = $_REQUEST["username"];
@@ -70,6 +74,7 @@ get的方法很常见，就比如说我用百度来搜索"寄生兽next to you",
 		echo "hello ${username} , you password is ${password}!";
 	?>
 
+5、打开wamp服务器，在浏览器中输入"http://localhost/login.html"，并在该页输入登录信息点"提交"，即可看到输入的结果。
 
 ###ajax
 form表单提交数据需要跳转页面或会阻塞页面的其他操作，为了提供更好的交互，我们可以ajax来提交表单，下面演示一段通过jquery封装的ajax代码来提交数据。代码如下：
@@ -88,7 +93,27 @@ form表单提交数据需要跳转页面或会阻塞页面的其他操作，为�
 		error:function(){
 			alert('something is error!');
 		}
-		});
+	});
+
+	//ajax通过post来提交数据
+	/*
+
+	var form = new FormData();
+	form.username="acdliu";
+	form.password="password";
+	$.ajax({
+		url:"http://localhost/index.php",
+		type:"post",
+		data:form,
+		timeout:2000,
+		success:function(data){
+			$('.clickBtn').append(data);
+		},
+		error:function(){
+			$('.clickBtn').append('something is wrong with connection');
+		}
+	});
+	*/
 	</script>
 
 

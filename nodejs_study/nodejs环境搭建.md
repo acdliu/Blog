@@ -3,9 +3,6 @@
 ###一、nodejs安装
 1、在[nodejs官网](http://nodejs.org/)上点击install按钮即可下载nodejs安装文件。
 
-<style type="text/css">
-	img{ width: 500px; height: auto;}
-</style>
 ![revolunet logo](./picForDes/nodejs_download.png)
 
 2、运行安装文件，配置安装路径，其他配置项按默认配置，直接下一步到完成。
@@ -19,7 +16,7 @@
 
 	npm -v
 
-2、如果电脑是通过代理来上网时，还需要通过下面代码配置npm的代理，否则在通过npm来安装依赖包试会有网络错误
+2、如果电脑是通过代理来上网时，还需要通过下面代码配置npm的代理，否则在通过npm来安装依赖包试会有网络错误，同时还要将浏览器设置为localhost*和1127.0.0.1*不使用代理。
 
 	npm config set proxy=代理地址
 	example:npm config set proxy=http://127.0.0.1
