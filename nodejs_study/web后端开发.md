@@ -1,5 +1,5 @@
 #Web后端开发
-之前已经说过如何搭建nodejs后台环境[href=""]，本文将介绍如何通过nodejs+express+ejs模板来拦截用户请求和返回数据
+之前已经说过如何搭建[nodejs后台环境](https://github.com/acdliu/Blog/blob/gh-pages/nodejs_study/nodejs%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.md)，本文将介绍如何通过nodejs+express+ejs模板来拦截用户请求和返回数据
 
 ###nodejs+express项目目录
 
