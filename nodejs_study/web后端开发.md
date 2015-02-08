@@ -88,7 +88,7 @@
 
 	module.exports = app;
 
-这里在引入文件时要注意，在nodejs中模块分为文件模块和核心模块，核心模块即express框架项目下的node_modules文件夹内的模块，使用require("文件名"),即可引用外部模块。要引用内部模块时，需要在文件路径前加/或./，否则nodejs会在node_modules的文件夹内查找该模块。
+这里在引入文件时要注意，在nodejs中模块分为文件模块和核心模块，核心模块即express框架项目下的node_modules文件夹内的模块，使用require("文件名"),即可引用核心模块。要引用内部文件模块时，需要在文件路径前加/或./，否则nodejs会在node_modules的文件夹内查找该核心模块。
 
 ###设置html模板
 这里我不是很习惯ejs模版的写法，所以这里修改下配置，使用html做为模板，模板引擎还是ejs。
